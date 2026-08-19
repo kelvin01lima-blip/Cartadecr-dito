@@ -2,53 +2,112 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>S.O.S Clube | Gestão de Parceiros</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.O.S Clube | Portal do Parceiro</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: sans-serif; }</style>
 </head>
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-slate-100 text-slate-900 min-h-screen">
 
-    <div id="app" class="max-w-5xl mx-auto p-6">
+    <!-- TELA DE LOGIN -->
+    <div id="loginSection" class="fixed inset-0 bg-[#0f172a] flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-8 rounded-3xl w-full max-w-sm shadow-2xl">
+            <h2 class="text-2xl font-black mb-6 text-center">S.O.S CLUBE</h2>
+            <select id="selectLogin" onchange="autoPreencher()" class="w-full p-4 mb-4 bg-slate-100 rounded-xl font-bold"></select>
+            <input type="password" id="inputSenha" placeholder="Senha" class="w-full p-4 mb-4 bg-slate-100 rounded-xl">
+            <button onclick="fazerLogin()" class="w-full bg-[#f97316] text-white p-4 rounded-xl font-bold">ENTRAR</button>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="mainSection" class="hidden max-w-5xl mx-auto p-6">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-black">S.O.S SOLUÇÕES</h1>
+            <button onclick="localStorage.clear(); location.reload()" class="text-xs font-bold text-red-500">SAIR</button>
+        </div>
+
         <!-- ÁREA DIRETORIA -->
         <div id="areaDiretoria" class="hidden space-y-6">
-            <h1 class="text-3xl font-black">Painel Diretoria - S.O.S Clube</h1>
             <div class="bg-white p-6 rounded-3xl border shadow-sm">
-                <table class="w-full text-left">
-                    <thead class="text-xs text-slate-400 uppercase"><tr><th class="p-3">Parceiro</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
-                    <tbody id="tabelaDiretoria"></tbody>
-                </table>
+                <h2 class="font-bold mb-4">Gestão de Parceiros</h2>
+                <div id="listaParceiros" class="space-y-4"></div>
+                <div class="mt-8 pt-4 border-t">
+                    <input type="text" id="novoNome" placeholder="Nome Marca/Revenda" class="p-2 border rounded">
+                    <input type="number" id="novoAporte" placeholder="Aporte R$" class="p-2 border rounded">
+                    <button onclick="adicionarCliente()" class="bg-black text-white p-2 rounded">Cadastrar</button>
+                </div>
             </div>
         </div>
 
         <!-- ÁREA CLIENTE -->
         <div id="areaCliente" class="hidden space-y-6">
             <div class="bg-slate-900 p-8 rounded-3xl text-white">
-                <h1 class="text-3xl font-extrabold mb-2">Parceria Estratégica: <span id="cliNome"></span></h1>
-                <p class="text-slate-400">Você é um parceiro de alta importância para a S.O.S Soluções. Sua marca de semijoias está em um nível que exige prioridade técnica e suporte operacional diferenciado.</p>
+                <h1 class="text-3xl font-extrabold mb-4">Parceria Estratégica: <span id="spanNomeCli"></span></h1>
+                <p class="text-slate-400">Você é um cliente de importância estratégica para a S.O.S Soluções. Sua marca de semijoias está em um nível que exige prioridade técnica e suporte operacional diferenciado. Enxergamos em você o parceiro ideal para o S.O.S Clube.</p>
             </div>
             
-            <div class="bg-white p-8 rounded-3xl border border-slate-200">
-                <h2 class="font-bold mb-4">Histórico de Aportes</h2>
-                <div id="historicoAportes" class="space-y-2 text-sm text-slate-600"></div>
+            <div class="bg-white p-8 rounded-3xl border shadow-sm">
+                <h2 class="font-bold text-lg mb-4">Histórico e Saldo</h2>
+                <div id="historicoDisplay" class="text-sm text-slate-600 space-y-2"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // Inicialização rápida para teste
-        let clientes = JSON.parse(localStorage.getItem('sos_dados')) || [
-            { nome: 'Exemplo Marcas LTDA', aporte: 2000, historico: ['Aporte inicial: R$ 2000 em 19/08/26'] }
-        ];
+        let data = JSON.parse(localStorage.getItem('sos_data')) || {
+            clientes: [{ nome: 'Diretoria', senha: '123', isAdm: true, aporte: 0, hist: [] }]
+        };
 
-        function renderizar() {
-            // Renderiza tabela ou painel cliente baseado no login... 
-            // (Código de lógica reduzido para garantir que você veja algo na tela agora)
-            console.log("Sistema carregado");
+        function renderSelect() {
+            const s = document.getElementById('selectLogin');
+            s.innerHTML = data.clientes.map(c => `<option value="${c.nome}">${c.nome}</option>`).join('');
         }
-        
-        // Se você não viu nada, tente abrir o arquivo index.html no seu navegador
-        // e clique com o botão direito -> "Inspecionar" -> aba "Console" 
-        // para ver se há erros de digitação.
-        renderizar();
+
+        function fazerLogin() {
+            const nome = document.getElementById('selectLogin').value;
+            const senha = document.getElementById('inputSenha').value;
+            const c = data.clientes.find(x => x.nome === nome && x.senha === senha);
+            if(c) {
+                sessionStorage.setItem('user', JSON.stringify(c));
+                location.reload();
+            } else alert('Senha errada!');
+        }
+
+        function adicionarCliente() {
+            data.clientes.push({ nome: document.getElementById('novoNome').value, senha: '123', aporte: parseFloat(document.getElementById('novoAporte').value), hist: ['Aporte inicial: ' + document.getElementById('novoAporte').value] });
+            localStorage.setItem('sos_data', JSON.stringify(data));
+            location.reload();
+        }
+
+        // Carregar
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        if(user) {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('mainSection').classList.remove('hidden');
+            if(user.isAdm) {
+                document.getElementById('areaDiretoria').classList.remove('hidden');
+                let html = '';
+                data.clientes.forEach((c, i) => {
+                    html += `<div>${c.nome} - R$ ${c.aporte} <button onclick="editar(${i})" class="text-orange-500 ml-4">EDITAR</button></div>`;
+                });
+                document.getElementById('listaParceiros').innerHTML = html;
+            } else {
+                document.getElementById('areaCliente').classList.remove('hidden');
+                document.getElementById('spanNomeCli').innerText = user.nome;
+                document.getElementById('historicoDisplay').innerHTML = user.hist.map(h => `<p>• ${h}</p>`).join('');
+            }
+        }
+        renderSelect();
+
+        function editar(i) {
+            let novo = prompt("Novo valor de aporte para " + data.clientes[i].nome);
+            if(novo) {
+                data.clientes[i].aporte = parseFloat(novo);
+                data.clientes[i].hist.push("Atualização em " + new Date().toLocaleDateString() + ": R$ " + novo);
+                localStorage.setItem('sos_data', JSON.stringify(data));
+                location.reload();
+            }
+        }
     </script>
 </body>
 </html>
