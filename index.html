@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.O.S Soluções - Carta de Crédito S.O.S Clube</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400,500,600,700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800">
+
+    <!-- TELA DE LOGIN -->
+    <div id="telaLogin" class="fixed inset-0 bg-[#0f172a] flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-8 rounded-2xl max-w-md w-full shadow-2xl space-y-6 border-t-4 border-[#f97316]">
+            <div class="text-center space-y-1">
+                <div class="bg-slate-900 text-white inline-block p-3 rounded-xl font-bold mb-2">S.O.S CLUBE</div>
+                <h2 class="text-2xl font-bold text-slate-900">Acesso Restrito</h2>
+                <p class="text-xs text-slate-500">Entre com seu Login e Senha da Carta de Crédito</p>
+            </div>
+            <form id="formLogin" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Usuário / Login</label>
+                    <input type="text" id="loginUsuario" required class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-[#f97316] outline-none" placeholder="Ex: diretoria ou anela">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Senha</label>
+                    <input type="password" id="loginSenha" required class="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-[#f97316] outline-none" placeholder="******">
+                </div>
+                <button type="submit" class="w-full bg-[#f97316] hover:bg-orange-600 text-white font-bold p-3 rounded-xl transition shadow-md text-sm">
+                    Entrar no Sistema
+                </button>
+            </form>
+            <div class="text-[11px] text-slate-400 text-center">
+                Acesso da Diretoria padrão: <span class="font-bold text-slate-600">diretoria</span> / Senha: <span class="font-bold text-slate-600">123456</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAINEL PRINCIPAL (Oculto até logar) -->
+    <div id="painelPrincipal" class="hidden min-h-screen flex flex-col">
+        
+        <!-- HEADER -->
+        <header class="bg-[#0f172a] text-white shadow-md p-4 lg:px-8 border-b-4 border-[#f97316]">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="bg-white p-2 rounded-xl text-center font-bold text-slate-900 border border-[#f97316]">
+                        <span class="text-xs text-[#f97316] block">Clube</span>
+                        <span class="text-lg">S.O.S</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-wide">S.O.S SOLUÇÕES</h1>
+                        <p class="text-xs text-[#f97316] font-semibold tracking-wider uppercase">Tecnologia & Apoio Operacional em Semijoias</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <span id="labelUsuarioLogado" class="bg-[#f97316] text-white text-xs font-bold px-3 py-1.5 rounded-lg uppercase tracking-wider shadow"></span>
+                    <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition">Sair</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO -->
+        <main class="max-w-7xl mx-auto p-4 lg:p-8 space-y-6 flex-1 w-full">
+
+            <!-- REGRAS DA CARTA DE CRÉDITO -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-[#f97316] inline-block"></span> 
+                    Regras de Desconto da Carta de Crédito S.O.S Clube
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100"><span class="font-bold text-[#f97316]">R$ 2.000 - R$ 3.999</span><p class="text-xl font-extrabold text-slate-800 mt-1">20% Desconto</p></div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100"><span class="font-bold text-[#f97316]">R$ 4.000 - R$ 5.999</span><p class="text-xl font-extrabold text-slate-800 mt-1">25% Desconto</p></div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100"><span class="font-bold text-[#f97316]">R$ 6.000 - R$ 8.999</span><p class="text-xl font-extrabold text-slate-800 mt-1">27% Desconto</p></div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-100"><span class="font-bold text-[#f97316]">R$ 9.000 ou mais</span><p class="text-xl font-extrabold text-slate-800 mt-1">30% Desconto</p></div>
+                </div>
+            </div>
+
+            <!-- ÁREA EXCLUSIVA DA DIRETORIA (Cadastros, Totais e Gestão) -->
+            <div id="areaDiretoria" class="space-y-6 hidden">
+                <!-- CARDS DE RESUMO -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200"><p class="text-xs font-semibold text-slate-400 uppercase">Clientes no Clube</p><h3 id="totalClientes" class="text-3xl font-bold text-slate-900 mt-1">0</h3></div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200"><p class="text-xs font-semibold text-slate-400 uppercase">Crédito Total Aportado</p><h3 id="totalAportado" class="text-3xl font-bold text-[#f97316] mt-1">R$ 0,00</h3></div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200"><p class="text-xs font-semibold text-slate-400 uppercase">Total Utilizado (Baixas)</p><h3 id="totalUtilizado" class="text-3xl font-bold text-blue-600 mt-1">R$ 0,00</h3></div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200"><p class="text-xs font-semibold text-slate-400 uppercase">Saldo em Caixa</p><h3 id="totalSaldo" class="text-3xl font-bold text-slate-900 mt-1">R$ 0,00</h3></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Formulário -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-1 space-y-4">
+                        <h2 class="text-lg font-bold text-slate-900 border-b pb-2">Cadastrar Carta de Crédito</h2>
+                        <form id="formCliente" class="space-y-3">
+                            <div><label class="block text-xs font-bold text-slate-600 uppercase mb-1">Nome do Cliente</label><input type="text" id="nomeCliente" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#f97316]" placeholder="Ex: Anela Acessórios"></div>
+                            <div><label class="block text-xs font-bold text-slate-600 uppercase mb-1">Valor do Aporte (R$)</label><input type="number" id="valorAporte" min="2000" step="0.01" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#f97316]" placeholder="Mínimo R$ 2.000"></div>
+                            <div><label class="block text-xs font-bold text-slate-600 uppercase mb-1">Login do Cliente</label><input type="text" id="loginCliente" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#f97316]" placeholder="Ex: anela"></div>
+                            <div><label class="block text-xs font-bold text-slate-600 uppercase mb-1">Senha do Cliente</label><input type="text" id="senhaCliente" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#f97316]" placeholder="Ex: anela123"></div>
+                            <button type="submit" class="w-full bg-[#0f172a] hover:bg-slate-800 text-white font-bold p-3 rounded-xl transition text-sm shadow">Cadastrar e Gerar Acesso</button>
+                        </form>
+                    </div>
+
+                    <!-- Tabela de Gestão -->
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2 overflow-hidden flex flex-col">
+                        <h2 class="text-lg font-bold text-slate-900 border-b pb-2 mb-4">Gestão de Cartas e Clientes</h2>
+                        <div class="overflow-x-auto flex-1">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="border-b text-xs font-bold text-slate-400 uppercase bg-slate-50">
+                                        <th class="p-3">Cliente / Acesso</th>
+                                        <th class="p-3">Aporte / Desconto</th>
+                                        <th class="p-3">Saldo Disponível</th>
+                                        <th class="p-3 text-center">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabelaClientes" class="text-sm divide-y divide-slate-100"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÁREA EXCLUSIVA DO CLIENTE -->
+            <div id="areaCliente" class="space-y-6 hidden">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4 gap-4">
+                        <div>
+                            <span class="text-xs font-bold text-[#f97316] uppercase">Sua Carta de Crédito Ativa</span>
+                            <h2 id="cliNomeExibicao" class="text-2xl font-bold text-slate-900 mt-0.5"></h2>
+                        </div>
+                        <div class="bg-orange-50 border border-orange-200 px-4 py-2 rounded-xl text-right">
+                            <span class="text-xs text-slate-500 block">Seu Desconto Garantido</span>
+                            <span id="cliDescontoExibicao" class="text-xl font-black text-[#f97316]"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                            <p class="text-xs font-bold text-slate-400 uppercase">Valor Total Aportado</p>
+                            <h3 id="cliAporteExibicao" class="text-2xl font-bold text-slate-800 mt-1"></h3>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                            <p class="text-xs font-bold text-slate-400 uppercase">Total Utilizado (Serviços)</p>
+                            <h3 id="cliUtilizadoExibicao" class="text-2xl font-bold text-blue-600 mt-1"></h3>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                            <p class="text-xs font-bold text-slate-400 uppercase">Saldo Restante na Carta</p>
+                            <h3 id="cliSaldoExibicao" class="text-2xl font-bold text-slate-900 mt-1"></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODAL DE BAIXA -->
+    <div id="modalBaixa" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-6 rounded-2xl max-w-md w-full shadow-xl space-y-4">
+            <h3 class="text-lg font-bold text-slate-900">Utilizar Crédito (Baixa de Serviço)</h3>
+            <p id="modalClienteNome" class="text-xs text-slate-500 font-semibold uppercase"></p>
+            <form id="formBaixa" class="space-y-4">
+                <input type="hidden" id="modalClienteId">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Valor a Debitar (R$)</label>
+                    <input type="number" id="valorBaixa" step="0.01" min="0.01" required class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-[#f97316]" placeholder="0,00">
+                </div>
+                <div class="flex gap-2">
+                    <button type="button" onclick="fecharModal()" class="w-1/2 bg-slate-200 hover:bg-slate-300 font-bold p-2.5 rounded-xl text-sm transition">Cancelar</button>
+                    <button type="submit" class="w-1/2 bg-[#f97316] hover:bg-orange-600 text-white font-bold p-2.5 rounded-xl text-sm transition">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE LOGICA -->
+    <script>
+        let clientes = JSON.parse(localStorage.getItem('sos_clube_clientes')) || [];
+        let sessaoAtual = JSON.parse(sessionStorage.getItem('sos_sessao')) || null;
+
+        function calcularDesconto(valor) {
+            if (valor >= 9000) return '30%';
+            if (valor >= 6000) return '27%';
+            if (valor >= 4000) return '25%';
+            if (valor >= 2000) return '20%';
+            return '7%';
+        }
+
+        function salvarDados() {
+            localStorage.setItem('sos_clube_clientes', JSON.stringify(clientes));
+            atualizarDashboard();
+        }
+
+        // Sistema de Login
+        document.getElementById('formLogin').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const usuario = document.getElementById('loginUsuario').value.trim().toLowerCase();
+            const senha = document.getElementById('loginSenha').value.trim();
+
+            // Credencial da Diretoria
+            if (usuario === 'diretoria' && senha === '123456') {
+                sessaoAtual = { tipo: 'diretoria', nome: 'Diretoria S.O.S' };
+                sessionStorage.setItem('sos_sessao', JSON.stringify(sessaoAtual));
+                aplicarSessao();
+                return;
+            }
+
+            // Validar Cliente cadastrado
+            const clienteEncontrado = clientes.find(c => c.login.toLowerCase() === usuario && c.senha === senha);
+            if (clienteEncontrado) {
+                sessaoAtual = { tipo: 'cliente', nome: clienteEncontrado.nome, login: clienteEncontrado.login };
+                sessionStorage.setItem('sos_sessao', JSON.stringify(sessaoAtual));
+                aplicarSessao();
+                return;
+            }
+
+            alert('Login ou senha incorretos! Verifique suas credenciais.');
+        });
+
+        function logout() {
+            sessionStorage.removeItem('sos_sessao');
+            window.location.reload();
+        }
+
+        function aplicarSessao() {
+            if (!sessaoAtual) {
+                document.getElementById('telaLogin').classList.remove('hidden');
+                document.getElementById('painelPrincipal').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('telaLogin').classList.add('hidden');
+            document.getElementById('painelPrincipal').classList.remove('hidden');
+            document.getElementById('labelUsuarioLogado').innerText = `Logado como: ${sessaoAtual.nome}`;
+
+            if (sessaoAtual.tipo === 'diretoria') {
+                document.getElementById('areaDiretoria').classList.remove('hidden');
+                document.getElementById('areaCliente').classList.add('hidden');
+                atualizarDashboard();
+            } else {
+                document.getElementById('areaDiretoria').classList.add('hidden');
+                document.getElementById('areaCliente').classList.remove('hidden');
+                carregarPainelCliente();
+            }
+        }
+
+        function atualizarDashboard() {
+            const tbody = document.getElementById('tabelaClientes');
+            tbody.innerHTML = '';
+            let totalAportadoGeral = 0, totalUtilizadoGeral = 0, totalSaldoGeral = 0;
+
+            if (clientes.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-slate-400">Nenhum cliente cadastrado no S.O.S Clube.</td></tr>`;
+            }
+
+            clientes.forEach((c, index) => {
+                const desconto = calcularDesconto(c.aporteInicial);
+                const saldoAtual = c.aporteInicial - c.utilizado;
+                totalAportadoGeral += c.aporteInicial;
+                totalUtilizadoGeral += c.utilizado;
+                totalSaldoGeral += saldoAtual;
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-3">
+                            <span class="font-bold text-slate-800 block">${c.nome}</span>
+                            <span class="text-xs text-slate-400">Login: ${c.login} | Senha: ${c.senha}</span>
+                        </td>
+                        <td class="p-3">
+                            <span class="text-slate-600 block">R$ ${c.aporteInicial.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+                            <span class="bg-orange-100 text-[#f97316] font-bold px-2 py-0.5 rounded text-[10px]">${desconto} desc.</span>
+                        </td>
+                        <td class="p-3 font-bold text-slate-900">R$ ${saldoAtual.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="abrirModal(${index})" class="bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1.5 rounded-lg text-xs font-bold transition">Dar Baixa</button>
+                            <button onclick="excluirCliente(${index})" class="bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg text-xs font-bold transition ml-1">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('totalClientes').innerText = clientes.length;
+            document.getElementById('totalAportado').innerText = `R$ ${totalAportadoGeral.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('totalUtilizado').innerText = `R$ ${totalUtilizadoGeral.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('totalSaldo').innerText = `R$ ${totalSaldoGeral.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        }
+
+        function carregarPainelCliente() {
+            const cliente = clientes.find(c => c.login.toLowerCase() === sessaoAtual.login.toLowerCase());
+            if (!cliente) return;
+
+            const saldo = cliente.aporteInicial - cliente.utilizado;
+            document.getElementById('cliNomeExibicao').innerText = cliente.nome;
+            document.getElementById('cliDescontoExibicao').innerText = calcularDesconto(cliente.aporteInicial);
+            document.getElementById('cliAporteExibicao').innerText = `R$ ${cliente.aporteInicial.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('cliUtilizadoExibicao').innerText = `R$ ${cliente.utilizado.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('cliSaldoExibicao').innerText = `R$ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        }
+
+        document.getElementById('formCliente').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('nomeCliente').value;
+            const aporte = parseFloat(document.getElementById('valorAporte').value);
+            const login = document.getElementById('loginCliente').value.trim();
+            const senha = document.getElementById('senhaCliente').value.trim();
+
+            if (aporte < 2000) {
+                alert('O valor mínimo de adesão é R$ 2.000,00.');
+                return;
+            }
+
+            clientes.push({ nome, aporteInicial: aporte, utilizado: 0, login, senha });
+            salvarDados();
+            this.reset();
+        });
+
+        function abrirModal(index) {
+            document.getElementById('modalClienteId').value = index;
+            document.getElementById('modalClienteNome').innerText = `Cliente: ${clientes[index].nome}`;
+            document.getElementById('modalBaixa').classList.remove('hidden');
+        }
+
+        function fecharModal() {
+            document.getElementById('modalBaixa').classList.add('hidden');
+            document.getElementById('formBaixa').reset();
+        }
+
+        document.getElementById('formBaixa').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const index = document.getElementById('modalClienteId').value;
+            const valorBaixa = parseFloat(document.getElementById('valorBaixa').value);
+            const saldoDisponivel = clientes[index].aporteInicial - clientes[index].utilizado;
+
+            if (valorBaixa > saldoDisponivel) {
+                alert('O valor da baixa excede o saldo disponível!');
+                return;
+            }
+
+            clientes[index].utilizado += valorBaixa;
+            salvarDados();
+            fecharModal();
+        });
+
+        function excluirCliente(index) {
+            if (confirm('Deseja excluir este cliente do clube?')) {
+                clientes.splice(index, 1);
+                salvarDados();
+            }
+        }
+
+        // Executar checagem inicial de sessão ao abrir a página
+        aplicarSessao();
+    </script>
+</body>
+</html>
