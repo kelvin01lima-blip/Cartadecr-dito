@@ -142,6 +142,12 @@
                 <div><label>Total Abatido (R$)</label><input id="eAbatido" type="number" step="0.01" class="w-full p-3 bg-slate-50 border rounded-2xl mt-1 text-sm font-normal"></div>
                 <div><label>Data do Último Aporte</label><input id="eData" type="date" class="w-full p-3 bg-slate-50 border rounded-2xl mt-1 text-sm font-normal"></div>
                 <div><label>Adicionar Novo Histórico (Ex: 2026-08-19: Aporte R$ 1000)</label><input id="eNovoHist" class="w-full p-3 bg-slate-50 border rounded-2xl mt-1 text-sm font-normal lowercase" placeholder="Data: Descrição do movimento"></div>
+                
+                <!-- GERENCIAMENTO / EXCLUSÃO DE ITENS DO HISTÓRICO -->
+                <div class="pt-2">
+                    <label class="block mb-2">Itens Existentes no Histórico (Clique em Excluir para remover)</label>
+                    <div id="listaHistoricoEdicao" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+                </div>
             </div>
             <div class="pt-2 flex gap-3">
                 <button onclick="toggleModal('modalEdit')" class="w-1/2 bg-slate-200 p-3.5 rounded-2xl font-bold text-sm text-slate-700">Cancelar</button>
@@ -295,6 +301,7 @@
             document.getElementById('eAbatido').value = "0";
             document.getElementById('eData').value = new Date().toISOString().split('T')[0];
             document.getElementById('eNovoHist').value = "";
+            document.getElementById('listaHistoricoEdicao').innerHTML = '<p class="text-xs text-slate-400">Nenhum histórico anterior.</p>';
             toggleModal('modalEdit');
         }
 
@@ -308,7 +315,38 @@
             document.getElementById('eAbatido').value = c.abatido;
             document.getElementById('eData').value = c.dataAporte || '';
             document.getElementById('eNovoHist').value = '';
+            
+            // Renderizar itens de histórico para permitir exclusão direta
+            renderizarHistoricoModal(c);
+
             toggleModal('modalEdit');
+        }
+
+        function renderizarHistoricoModal(c) {
+            const container = document.getElementById('listaHistoricoEdicao');
+            if(!c.hist || c.hist.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-400">Nenhum histórico registrado.</p>';
+                return;
+            }
+            let html = '';
+            c.hist.forEach((h, idx) => {
+                html += `
+                    <div class="flex justify-between items-center bg-slate-50 p-2 rounded-xl border text-xs font-normal">
+                        <span class="truncate pr-2">${h}</span>
+                        <button type="button" onclick="removerItemHist(${window.editIdx}, ${idx})" class="bg-red-50 text-red-600 hover:bg-red-100 px-2 py-1 rounded-lg font-bold shrink-0">Excluir</button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function removerItemHist(listaIdx, histIdx) {
+            let listaNorm = data.clientes.filter(x => !x.isAdm);
+            let cReal = data.clientes.find(x => x.nome === listaNorm[listaIdx].nome);
+            if(cReal && cReal.hist) {
+                cReal.hist.splice(histIdx, 1);
+                renderizarHistoricoModal(cReal);
+            }
         }
 
         function salvarEdit() {
@@ -321,9 +359,11 @@
 
             let listaNorm = data.clientes.filter(x => !x.isAdm);
             if(window.editIdx === -1) {
+                let histArray = [];
+                if(novoHist) histArray.push(novoHist);
                 data.clientes.push({
                     nome: nome, senha: senha, aporte: aporte, abatido: abatido, dataAporte: dataAporte,
-                    hist: novoHist ? [novoHist] : [`${dataAporte}: Aporte inicial de R$ ${aporte.toFixed(2)}`]
+                    hist: histArray
                 });
             } else {
                 let cReal = data.clientes.find(x => x.nome === listaNorm[window.editIdx].nome);
@@ -331,9 +371,6 @@
                 if(!cReal.hist) cReal.hist = [];
                 if(novoHist) {
                     cReal.hist.push(novoHist);
-                } else {
-                    // Atualiza o registro geral no histórico caso os valores mudem diretamente
-                    cReal.hist.push(`${new Date().toLocaleDateString('pt-BR')}: Ajuste de Aporte (R$ ${aporte.toFixed(2)}) / Abatido (R$ ${abatido.toFixed(2)})`);
                 }
             }
 
