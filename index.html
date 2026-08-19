@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <title>S.O.S Soluções - S.O.S Clube</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>body { font-family: 'Inter', sans-serif; }</style>
+    <style>body { font-family: sans-serif; }</style>
 </head>
 <body class="bg-slate-100 min-h-screen">
 
-    <!-- CABEÇALHO ORIGINAL FIEL -->
+    <!-- CABEÇALHO ORIGINAL -->
     <header class="bg-[#0f172a] text-white p-6 border-b-4 border-[#f97316]">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div>
                 <h1 class="text-2xl font-bold tracking-wide">S.O.S SOLUÇÕES</h1>
-                <p class="text-[10px] text-[#f97316] uppercase font-bold tracking-widest mt-1">Tecnologia & Apoio Operacional em Semijoias</p>
+                <p class="text-[10px] text-[#f97316] uppercase font-bold tracking-widest mt-1">S.O.S CLUBE</p>
             </div>
             <div id="statusArea" class="hidden flex items-center gap-4">
                 <span id="labelUser" class="text-xs font-bold text-slate-300"></span>
@@ -23,7 +23,7 @@
     </header>
 
     <main class="max-w-7xl mx-auto p-6 space-y-6">
-        <!-- LOGIN (Sem preenchimento automático) -->
+        <!-- LOGIN -->
         <div id="boxLogin" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 max-w-sm mx-auto mt-10">
             <h2 class="font-bold text-lg mb-4">Acesso ao S.O.S Clube</h2>
             <select id="selectLogin" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl font-bold"></select>
@@ -31,43 +31,62 @@
             <button onclick="fazerLogin()" class="w-full bg-[#0f172a] hover:bg-slate-800 text-white p-3 rounded-xl font-bold transition">ENTRAR</button>
         </div>
 
-        <!-- DASHBOARD -->
+        <!-- APP -->
         <div id="boxApp" class="hidden space-y-6">
-            <button onclick="abrirRegras()" class="bg-[#f97316] text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md">❓ COMO FUNCIONA / REGRAS</button>
+            <button onclick="toggleModal('modalRegras')" class="bg-[#f97316] text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md">❓ COMO FUNCIONA / REGRAS</button>
 
-            <div id="msgVip" class="bg-slate-900 p-8 rounded-2xl text-white hidden">
-                <h2 class="text-2xl font-bold">Parceria Estratégica: <span id="cliNome"></span></h2>
-                <p class="text-slate-300 mt-2 text-sm">Você é um cliente de importância estratégica para a S.O.S Soluções. Sua marca de semijoias está em um nível que exige prioridade técnica. Enxergamos em você o parceiro ideal.</p>
+            <!-- DASHBOARD CLIENTE -->
+            <div id="viewCliente" class="hidden space-y-6">
+                <div class="bg-slate-900 p-8 rounded-2xl text-white">
+                    <h2 class="text-2xl font-bold">Parceria Estratégica: <span id="cliNome"></span></h2>
+                    <p class="text-slate-300 text-sm mt-2">Você é um parceiro de alta importância. Sua marca exige suporte de elite. Enxergamos em você o parceiro ideal.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border"><h2 class="font-bold mb-4">Totais da Marca</h2><div id="totaisCliente" class="space-y-2 font-bold"></div></div>
+                    <div class="bg-white p-6 rounded-2xl border"><h2 class="font-bold mb-4">Evolução (Gráfico Aportes)</h2><div id="graficoDisplay" class="flex items-end gap-2 h-40 border-b border-l p-2"></div></div>
+                </div>
             </div>
 
-            <!-- TABELA DIRETORIA -->
-            <div id="viewDiretoria" class="bg-white p-6 rounded-2xl border hidden">
+            <!-- DASHBOARD DIRETORIA -->
+            <div id="viewDiretoria" class="bg-white p-6 rounded-2xl border hidden space-y-4">
+                <h2 class="font-bold text-lg">Painel Diretoria</h2>
                 <table class="w-full text-left">
-                    <thead class="text-xs uppercase text-slate-400"><tr><th class="p-3">Parceiro</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
+                    <thead class="text-xs uppercase text-slate-400"><tr><th class="p-3">Marca</th><th class="p-3">Aportado</th><th class="p-3">Abatido</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
                     <tbody id="tabelaDiretoria"></tbody>
                 </table>
             </div>
-
-            <!-- HISTÓRICO + GRÁFICO CLIENTE -->
-            <div id="viewCliente" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
-                <div class="bg-white p-6 rounded-2xl border">
-                    <h2 class="font-bold mb-4">Histórico de Movimentações</h2>
-                    <div id="historicoDisplay" class="text-sm space-y-2"></div>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border">
-                    <h2 class="font-bold mb-4">Gráfico de Aportes</h2>
-                    <div id="graficoDisplay" class="flex items-end gap-2 h-40 border-b border-l p-2"></div>
-                </div>
-            </div>
         </div>
     </main>
+
+    <!-- MODAL REGRAS -->
+    <div id="modalRegras" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-8 rounded-2xl max-w-lg w-full space-y-4">
+            <h2 class="font-bold text-lg border-b pb-2">Como funciona o S.O.S Clube</h2>
+            <ul class="text-sm text-slate-600 list-disc pl-5">
+                <li><strong>Regra de 10 dias:</strong> Aviso prévio obrigatório.</li>
+                <li><strong>Faixas:</strong> 0(10%), 2k(20%), 4k(25%), 6k(27%), 9k(30%).</li>
+            </ul>
+            <button onclick="toggleModal('modalRegras')" class="w-full bg-[#0f172a] text-white p-3 rounded-xl font-bold">Entendido</button>
+        </div>
+    </div>
+
+    <!-- MODAL EDIÇÃO DIRETORIA -->
+    <div id="modalEdit" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-8 rounded-2xl max-w-sm w-full space-y-4">
+            <h2 class="font-bold text-lg">Editar Parceiro</h2>
+            <input id="eNome" class="w-full p-2 border rounded" placeholder="Nome">
+            <input id="eAporte" type="number" class="w-full p-2 border rounded" placeholder="Aporte Total">
+            <input id="eAbatido" type="number" class="w-full p-2 border rounded" placeholder="Total Abatido">
+            <button onclick="salvarEdit()" class="w-full bg-[#f97316] text-white p-3 rounded-xl font-bold">Salvar Alterações</button>
+        </div>
+    </div>
 
     <script>
         let data = JSON.parse(localStorage.getItem('sos_data')) || {
             clientes: [
                 { nome: 'Diretoria', senha: '123456', isAdm: true },
-                { nome: 'Uli Joias', senha: '987654321', aporte: 5000, hist: [2000, 3000] },
-                { nome: 'Niara Joias', senha: '123456789', aporte: 3500, hist: [1500, 2000] }
+                { nome: 'Uli Joias', senha: '987654321', aporte: 5000, abatido: 1000, hist: [2000, 3000] },
+                { nome: 'Niara Joias', senha: '123456789', aporte: 3500, abatido: 500, hist: [1500, 2000] }
             ]
         };
 
@@ -79,8 +98,8 @@
             if(c) { sessionStorage.setItem('u', JSON.stringify(c)); location.reload(); }
             else alert('Senha incorreta!');
         }
-
         function logout() { sessionStorage.removeItem('u'); location.reload(); }
+        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
 
         const user = JSON.parse(sessionStorage.getItem('u'));
         if(user) {
@@ -93,23 +112,34 @@
                 document.getElementById('viewDiretoria').classList.remove('hidden');
                 let html = '';
                 data.clientes.filter(x => !x.isAdm).forEach((c, i) => {
-                    html += `<tr class="border-t"><td class="p-3 font-bold">${c.nome}</td><td class="p-3">R$ ${c.aporte}</td>
-                    <td class="p-3 flex gap-2"><button onclick="baixa(${i})" class="text-blue-500 underline">BAIXA</button><button onclick="editar(${i})" class="text-orange-500 underline">EDITAR</button></td></tr>`;
+                    html += `<tr class="border-t"><td class="p-3 font-bold">${c.nome}</td><td class="p-3">R$ ${c.aporte}</td><td class="p-3">R$ ${c.abatido}</td><td class="p-3">R$ ${c.aporte - c.abatido}</td>
+                    <td class="p-3"><button onclick="abrirEdit(${i})" class="text-orange-500 font-bold underline">EDITAR</button></td></tr>`;
                 });
                 document.getElementById('tabelaDiretoria').innerHTML = html;
             } else {
                 document.getElementById('viewCliente').classList.remove('hidden');
-                document.getElementById('msgVip').classList.remove('hidden');
                 document.getElementById('cliNome').innerText = user.nome;
-                document.getElementById('historicoDisplay').innerHTML = user.hist.map(h => `<p class="border-b py-2 text-slate-600">Aporte: R$ ${h}</p>`).join('');
-                // Desenhar gráfico simples
-                user.hist.forEach(h => {
-                    document.getElementById('graficoDisplay').innerHTML += `<div class="bg-[#f97316] w-10" style="height: ${h/50}px"></div>`;
-                });
+                document.getElementById('totaisCliente').innerHTML = `<p>Aportado: R$ ${user.aporte}</p><p>Abatido: R$ ${user.abatido}</p><p>Saldo: R$ ${user.aporte - user.abatido}</p>`;
+                user.hist.forEach(h => { document.getElementById('graficoDisplay').innerHTML += `<div class="bg-[#f97316] w-10" style="height: ${h/20}px"></div>`; });
             }
         }
-        
-        function abrirRegras() { alert("10 dias de antecedência mínima.\nFaixas: 0(10%), 2k(20%), 4k(25%), 6k(27%), 9k(30%)"); }
+
+        function abrirEdit(i) {
+            window.editIdx = i;
+            let c = data.clientes.filter(x => !x.isAdm)[i];
+            document.getElementById('eNome').value = c.nome;
+            document.getElementById('eAporte').value = c.aporte;
+            document.getElementById('eAbatido').value = c.abatido;
+            toggleModal('modalEdit');
+        }
+
+        function salvarEdit() {
+            let c = data.clientes.filter(x => !x.isAdm)[window.editIdx];
+            c.nome = document.getElementById('eNome').value;
+            c.aporte = parseFloat(document.getElementById('eAporte').value);
+            c.abatido = parseFloat(document.getElementById('eAbatido').value);
+            localStorage.setItem('sos_data', JSON.stringify(data)); location.reload();
+        }
     </script>
 </body>
 </html>
