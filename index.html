@@ -5,9 +5,9 @@
     <title>S.O.S Soluções - S.O.S Clube</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 min-h-screen font-sans">
+<body class="bg-slate-100 min-h-screen">
 
-    <!-- CABEÇALHO (Layout Mantido) -->
+    <!-- CABEÇALHO MANTIDO -->
     <header class="bg-[#0f172a] text-white p-6 border-b-4 border-[#f97316]">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div>
@@ -16,7 +16,7 @@
             </div>
             <div id="statusArea" class="hidden flex items-center gap-4">
                 <span id="labelUser" class="text-xs font-bold text-slate-300 uppercase"></span>
-                <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase transition">Sair</button>
+                <button onclick="logout()" class="bg-red-600 px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase hover:bg-red-700">Sair</button>
             </div>
         </div>
     </header>
@@ -24,7 +24,7 @@
     <main class="max-w-7xl mx-auto p-6 space-y-6">
         <!-- LOGIN -->
         <div id="boxLogin" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 max-w-sm mx-auto mt-10">
-            <h2 class="font-bold text-lg mb-4 text-slate-800">Acesso ao S.O.S Clube</h2>
+            <h2 class="font-bold text-lg mb-4">Acesso ao S.O.S Clube</h2>
             <select id="selectLogin" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl font-bold"></select>
             <input type="password" id="inputSenha" placeholder="Senha de Acesso" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl">
             <button onclick="fazerLogin()" class="w-full bg-[#0f172a] hover:bg-slate-800 text-white p-3 rounded-xl font-bold transition">ENTRAR</button>
@@ -32,35 +32,24 @@
 
         <!-- APP -->
         <div id="boxApp" class="hidden space-y-6">
-            <button onclick="toggleModal('modalRegras')" class="bg-[#f97316] text-white px-6 py-2 rounded-lg text-xs font-bold shadow-md hover:bg-orange-600 transition">❓ COMO FUNCIONA O CLUBE</button>
+            <button onclick="toggleModal('modalRegras')" class="bg-[#f97316] text-white px-6 py-2 rounded-lg text-xs font-bold shadow-md hover:bg-orange-600">❓ COMO FUNCIONA / REGRAS</button>
 
-            <!-- RESUMO DIRETORIA -->
-            <div id="resumoDiretoria" class="hidden grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div class="bg-white p-5 rounded-2xl border font-bold text-slate-700">Total Parceiros<div id="resTotalCli" class="text-2xl text-[#f97316]">0</div></div>
-                <div class="bg-white p-5 rounded-2xl border font-bold text-slate-700">Total Aportado<div id="resTotalApo" class="text-2xl text-[#f97316]">R$ 0</div></div>
-                <div class="bg-white p-5 rounded-2xl border font-bold text-slate-700">Total Abatido<div id="resTotalAba" class="text-2xl text-blue-600">R$ 0</div></div>
-                <div class="bg-white p-5 rounded-2xl border font-bold text-slate-700">Saldo Geral<div id="resTotalSal" class="text-2xl text-slate-900">R$ 0</div></div>
+            <!-- PAINEL CLIENTE -->
+            <div id="viewCliente" class="hidden space-y-6">
+                <div class="bg-slate-900 p-8 rounded-2xl text-white">
+                    <h2 class="text-2xl font-bold">Parceria Estratégica: <span id="cliNome"></span></h2>
+                    <p class="text-slate-400 text-sm mt-3">Você é um parceiro de alta importância. O S.O.S Clube garante sua prioridade operacional.</p>
+                </div>
+                <div id="totaisCliente" class="bg-white p-6 rounded-2xl border font-bold text-slate-700"></div>
             </div>
 
             <!-- TABELA DIRETORIA -->
-            <div id="viewDiretoria" class="bg-white p-6 rounded-2xl border hidden">
-                <h2 class="font-bold text-lg mb-4">Parceiros Estratégicos</h2>
+            <div id="viewDiretoria" class="bg-white p-6 rounded-2xl border hidden space-y-4">
+                <h2 class="font-bold text-lg">Painel Diretoria</h2>
                 <table class="w-full text-left">
-                    <thead class="text-xs uppercase text-slate-400"><tr><th class="p-3">Marca</th><th class="p-3">Aporte</th><th class="p-3">Abatido</th><th class="p-3">Saldo</th><th class="p-3">% Uso</th><th class="p-3">Ações</th></tr></thead>
+                    <thead class="text-xs uppercase text-slate-400"><tr><th class="p-3">Marca</th><th class="p-3">Aporte (Data)</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
                     <tbody id="tabelaDiretoria"></tbody>
                 </table>
-            </div>
-
-            <!-- PAINEL CLIENTE -->
-            <div id="viewCliente" class="hidden grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="md:col-span-2 bg-slate-900 p-8 rounded-2xl text-white">
-                    <h2 class="text-2xl font-bold">Parceria Estratégica: <span id="cliNome"></span></h2>
-                    <p class="text-slate-400 text-sm mt-3">Sua marca é um pilar importante da nossa operação. Este painel permite acompanhar em tempo real o seu capital investido e a performance dos descontos aplicados.</p>
-                </div>
-                <div class="bg-white p-6 rounded-2xl border space-y-4">
-                    <h3 class="font-bold">Resumo Financeiro</h3>
-                    <div id="totaisCliente" class="text-sm space-y-2"></div>
-                </div>
             </div>
         </div>
     </main>
@@ -68,31 +57,24 @@
     <!-- MODAL REGRAS (Texto Profundo) -->
     <div id="modalRegras" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white p-8 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto space-y-4">
-            <h2 class="font-bold text-xl border-b pb-2">Manual do S.O.S Clube: Excelência Operacional</h2>
+            <h2 class="font-bold text-xl border-b pb-2">Regras de Operação S.O.S Clube</h2>
             <div class="text-sm text-slate-600 space-y-3">
-                <p>O S.O.S Clube não é apenas uma carta de crédito, é um programa de <strong>fidelidade estratégica</strong> para marcas de semijoias que buscam previsibilidade e eficiência operacional.</p>
-                <h3 class="font-bold text-[#f97316]">Política de Descontos Progressivos:</h3>
-                <table class="w-full border text-center">
-                    <tr class="bg-slate-100 font-bold"><td>Aporte</td><td>Desconto Aplicado</td></tr>
-                    <tr><td>R$ 0 a R$ 1.999</td><td>10%</td></tr>
-                    <tr><td>R$ 2.000 a R$ 3.999</td><td>20%</td></tr>
-                    <tr><td>R$ 4.000 a R$ 5.999</td><td>25%</td></tr>
-                    <tr><td>R$ 6.000 a R$ 8.999</td><td>27%</td></tr>
-                    <tr><td>R$ 9.000+</td><td>30%</td></tr>
-                </table>
-                <p><strong>Regra de Antecedência:</strong> Visando a alta demanda de nossas soluções, exigimos a solicitação de serviços com <strong>10 dias úteis de antecedência</strong>. Este prazo é fundamental para garantirmos a prioridade técnica e a excelência que sua marca exige, sem comprometer a qualidade da entrega.</p>
+                <p>O S.O.S Clube é um compromisso de parceria. <strong>Importante:</strong> Após cada aporte, existe um período de <strong>10 dias de carência</strong>. Somente após este período o valor fica disponível para abatimento de serviços.</p>
+                <h3 class="font-bold text-[#f97316]">Condições Niara Joias:</h3>
+                <p>Até R$ 8.999 (30%) | Acima de R$ 9.000 (35%)</p>
+                <h3 class="font-bold text-[#f97316]">Demais Parceiros:</h3>
+                <p>Faixas padrão: 0(10%), 2k(20%), 4k(25%), 6k(27%), 9k(30%).</p>
             </div>
-            <button onclick="toggleModal('modalRegras')" class="w-full bg-[#0f172a] text-white p-3 rounded-xl font-bold">Fechar Manual</button>
+            <button onclick="toggleModal('modalRegras')" class="w-full bg-[#0f172a] text-white p-3 rounded-xl font-bold">Entendido</button>
         </div>
     </div>
 
     <script>
-        // LOGICA (Mantida)
         let data = JSON.parse(localStorage.getItem('sos_data')) || {
             clientes: [
                 { nome: 'Diretoria', senha: '123456', isAdm: true },
-                { nome: 'Uli Joias', senha: '987654321', aporte: 5000, abatido: 1200 },
-                { nome: 'Niara Joias', senha: '123456789', aporte: 9500, abatido: 2000 }
+                { nome: 'Uli Joias', senha: '987654321', aporte: 5000, abatido: 0, dataAporte: '2026-08-19' },
+                { nome: 'Niara Joias', senha: '123456789', aporte: 9500, abatido: 0, dataAporte: '2026-08-10' }
             ]
         };
 
@@ -117,25 +99,16 @@
 
             if(user.isAdm) {
                 document.getElementById('viewDiretoria').classList.remove('hidden');
-                document.getElementById('resumoDiretoria').classList.remove('hidden');
-                let tA=0, tAb=0;
                 let html = '';
                 data.clientes.filter(x => !x.isAdm).forEach((c, i) => {
-                    let sal = c.aporte - c.abatido;
-                    let perc = ((c.abatido/c.aporte)*100).toFixed(1);
-                    tA += c.aporte; tAb += c.abatido;
-                    html += `<tr class="border-t font-medium"><td class="p-3">${c.nome}</td><td class="p-3">R$ ${c.aporte}</td><td class="p-3">R$ ${c.abatido}</td><td class="p-3">R$ ${sal}</td><td class="p-3 text-[#f97316] font-bold">${perc}%</td>
-                    <td class="p-3"><button onclick="alert('Funcionalidade de edição via Modal')" class="underline text-slate-500">Editar</button></td></tr>`;
+                    html += `<tr class="border-t"><td class="p-3 font-bold">${c.nome}</td><td class="p-3">R$ ${c.aporte} (${c.dataAporte})</td><td class="p-3">R$ ${c.aporte - c.abatido}</td>
+                    <td class="p-3"><button onclick="alert('Funcionalidade de edição')" class="text-orange-500 font-bold underline">EDITAR</button></td></tr>`;
                 });
                 document.getElementById('tabelaDiretoria').innerHTML = html;
-                document.getElementById('resTotalCli').innerText = data.clientes.length - 1;
-                document.getElementById('resTotalApo').innerText = 'R$ ' + tA;
-                document.getElementById('resTotalAba').innerText = 'R$ ' + tAb;
-                document.getElementById('resTotalSal').innerText = 'R$ ' + (tA - tAb);
             } else {
                 document.getElementById('viewCliente').classList.remove('hidden');
                 document.getElementById('cliNome').innerText = user.nome;
-                document.getElementById('totaisCliente').innerHTML = `<p>Aporte Total: <span class="text-[#f97316]">R$ ${user.aporte}</span></p><p>Já Utilizado: <span class="text-blue-600">R$ ${user.abatido}</span></p><p>Saldo Atual: <span class="text-slate-900">R$ ${user.aporte - user.abatido}</span></p>`;
+                document.getElementById('totaisCliente').innerHTML = `Aporte em: ${user.dataAporte} <br> Saldo: R$ ${user.aporte - user.abatido}`;
             }
         }
     </script>
