@@ -2,70 +2,96 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>S.O.S Soluções - S.O.S Clube</title>
+    <title>Clube S.O.S Carta de Crédito</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400,700,900&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
 <body class="bg-slate-100 min-h-screen">
 
-    <!-- CABEÇALHO MANTIDO -->
+    <!-- CABEÇALHO -->
     <header class="bg-[#0f172a] text-white p-6 border-b-4 border-[#f97316]">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold tracking-wide">S.O.S SOLUÇÕES</h1>
-                <p class="text-[10px] text-[#f97316] uppercase font-bold tracking-widest mt-1">Gestão de Parcerias Estratégicas</p>
+                <h1 class="text-2xl font-bold tracking-tight">S.O.S SOLUÇÕES</h1>
+                <p class="text-[10px] text-[#f97316] uppercase font-black tracking-widest mt-1">Clube S.O.S Carta de Crédito</p>
             </div>
             <div id="statusArea" class="hidden flex items-center gap-4">
-                <span id="labelUser" class="text-xs font-bold text-slate-300 uppercase"></span>
-                <button onclick="logout()" class="bg-red-600 px-4 py-1.5 rounded-lg text-[10px] font-bold uppercase hover:bg-red-700">Sair</button>
+                <span id="labelUser" class="text-xs font-bold uppercase tracking-wider text-slate-300"></span>
+                <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-[10px] font-black uppercase transition">Sair</button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-6 space-y-6">
+    <main class="max-w-7xl mx-auto p-6 space-y-8">
         <!-- LOGIN -->
-        <div id="boxLogin" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 max-w-sm mx-auto mt-10">
-            <h2 class="font-bold text-lg mb-4">Acesso ao S.O.S Clube</h2>
-            <select id="selectLogin" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl font-bold"></select>
-            <input type="password" id="inputSenha" placeholder="Senha de Acesso" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl">
-            <button onclick="fazerLogin()" class="w-full bg-[#0f172a] hover:bg-slate-800 text-white p-3 rounded-xl font-bold transition">ENTRAR</button>
+        <div id="boxLogin" class="bg-white p-10 rounded-3xl shadow-xl border border-slate-200 max-w-sm mx-auto mt-10 text-center">
+            <h2 class="text-xl font-black mb-6">Acesso ao Clube</h2>
+            <select id="selectLogin" class="w-full p-4 mb-4 bg-slate-50 border rounded-2xl font-bold"></select>
+            <input type="password" id="inputSenha" placeholder="Senha" class="w-full p-4 mb-4 bg-slate-50 border rounded-2xl">
+            <button onclick="fazerLogin()" class="w-full bg-[#0f172a] hover:bg-slate-900 text-white p-4 rounded-2xl font-black transition">ENTRAR</button>
         </div>
 
         <!-- APP -->
-        <div id="boxApp" class="hidden space-y-6">
-            <button onclick="toggleModal('modalRegras')" class="bg-[#f97316] text-white px-6 py-2 rounded-lg text-xs font-bold shadow-md hover:bg-orange-600">❓ COMO FUNCIONA / REGRAS</button>
+        <div id="boxApp" class="hidden space-y-8">
+            <button onclick="toggleModal('modalRegras')" class="bg-[#f97316] hover:bg-orange-600 text-white px-6 py-3 rounded-2xl text-xs font-black shadow-lg transition">❓ COMO FUNCIONA / REGRAS</button>
 
             <!-- PAINEL CLIENTE -->
-            <div id="viewCliente" class="hidden space-y-6">
-                <div class="bg-slate-900 p-8 rounded-2xl text-white">
-                    <h2 class="text-2xl font-bold">Parceria Estratégica: <span id="cliNome"></span></h2>
-                    <p class="text-slate-400 text-sm mt-3">Você é um parceiro de alta importância. O S.O.S Clube garante sua prioridade operacional.</p>
+            <div id="viewCliente" class="hidden space-y-8">
+                <div class="bg-slate-900 p-10 rounded-3xl text-white shadow-2xl">
+                    <h2 class="text-3xl font-black mb-4">Parceria Estratégica: <span id="cliNome" class="text-[#f97316]"></span></h2>
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-3xl">
+                        Sua marca é um pilar importante da nossa operação. Este programa foi desenhado para blindar seu fluxo de caixa e ampliar sua margem de lucro. Através deste aporte, você garante prioridade técnica e suporte operacional de elite, garantindo que sua marca esteja sempre à frente no mercado.
+                    </p>
                 </div>
-                <div id="totaisCliente" class="bg-white p-6 rounded-2xl border font-bold text-slate-700"></div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-white p-6 rounded-3xl shadow border"><span class="block text-xs text-slate-400 font-bold uppercase">Total Aportado</span><div id="cliTotalAporte" class="text-3xl font-black mt-2">R$ 0</div></div>
+                    <div class="bg-white p-6 rounded-3xl shadow border"><span class="block text-xs text-slate-400 font-bold uppercase">Total Abatido</span><div id="cliTotalAbatido" class="text-3xl font-black mt-2 text-blue-600">R$ 0</div></div>
+                    <div class="bg-white p-6 rounded-3xl shadow border"><span class="block text-xs text-slate-400 font-bold uppercase">Saldo Disponível</span><div id="cliSaldo" class="text-3xl font-black mt-2 text-[#f97316]">R$ 0</div></div>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow border">
+                    <h3 class="font-black text-lg mb-6">Gráfico de Evolução</h3>
+                    <div id="graficoDisplay" class="flex items-end gap-4 h-48 border-b pb-2"></div>
+                </div>
             </div>
 
-            <!-- TABELA DIRETORIA -->
-            <div id="viewDiretoria" class="bg-white p-6 rounded-2xl border hidden space-y-4">
-                <h2 class="font-bold text-lg">Painel Diretoria</h2>
+            <!-- PAINEL DIRETORIA -->
+            <div id="viewDiretoria" class="bg-white p-8 rounded-3xl shadow border hidden space-y-6">
+                <div class="grid grid-cols-4 gap-4 text-center mb-6">
+                    <div class="bg-slate-100 p-4 rounded-xl">Parceiros<div id="dirTotalCli" class="text-xl font-black">0</div></div>
+                    <div class="bg-slate-100 p-4 rounded-xl">Total Aportado<div id="dirTotalApo" class="text-xl font-black">R$ 0</div></div>
+                    <div class="bg-slate-100 p-4 rounded-xl">Total Abatido<div id="dirTotalAba" class="text-xl font-black">R$ 0</div></div>
+                    <div class="bg-slate-100 p-4 rounded-xl">Saldo Total<div id="dirTotalSal" class="text-xl font-black">R$ 0</div></div>
+                </div>
+                <h2 class="font-black text-xl">Gestão de Parceiros</h2>
                 <table class="w-full text-left">
-                    <thead class="text-xs uppercase text-slate-400"><tr><th class="p-3">Marca</th><th class="p-3">Aporte (Data)</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
+                    <thead class="text-xs uppercase text-slate-400"><tr><th class="p-3">Marca</th><th class="p-3">Aporte</th><th class="p-3">Abatido</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
                     <tbody id="tabelaDiretoria"></tbody>
                 </table>
+                <button onclick="abrirEdit(-1)" class="bg-black text-white px-6 py-3 rounded-xl font-bold">+ Cadastrar Parceiro</button>
             </div>
         </div>
     </main>
 
-    <!-- MODAL REGRAS (Texto Profundo) -->
-    <div id="modalRegras" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white p-8 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto space-y-4">
-            <h2 class="font-bold text-xl border-b pb-2">Regras de Operação S.O.S Clube</h2>
-            <div class="text-sm text-slate-600 space-y-3">
-                <p>O S.O.S Clube é um compromisso de parceria. <strong>Importante:</strong> Após cada aporte, existe um período de <strong>10 dias de carência</strong>. Somente após este período o valor fica disponível para abatimento de serviços.</p>
-                <h3 class="font-bold text-[#f97316]">Condições Niara Joias:</h3>
-                <p>Até R$ 8.999 (30%) | Acima de R$ 9.000 (35%)</p>
-                <h3 class="font-bold text-[#f97316]">Demais Parceiros:</h3>
-                <p>Faixas padrão: 0(10%), 2k(20%), 4k(25%), 6k(27%), 9k(30%).</p>
-            </div>
-            <button onclick="toggleModal('modalRegras')" class="w-full bg-[#0f172a] text-white p-3 rounded-xl font-bold">Entendido</button>
+    <!-- MODAL REGRAS -->
+    <div id="modalRegras" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-10 rounded-3xl max-w-2xl w-full shadow-2xl space-y-6">
+            <h2 class="text-2xl font-black border-b pb-4">Manual de Parceria S.O.S</h2>
+            <div id="conteudoRegras" class="text-sm text-slate-600 space-y-3"></div>
+            <button onclick="toggleModal('modalRegras')" class="w-full bg-[#f97316] text-white p-4 rounded-2xl font-black">Entendido</button>
+        </div>
+    </div>
+
+    <!-- MODAL EDITAR -->
+    <div id="modalEdit" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-8 rounded-3xl max-w-sm w-full space-y-4">
+            <h2 class="font-black text-lg">Editar Parceiro</h2>
+            <input id="eNome" class="w-full p-3 bg-slate-100 rounded-xl" placeholder="Nome">
+            <input id="eSenha" class="w-full p-3 bg-slate-100 rounded-xl" placeholder="Senha">
+            <input id="eAporte" type="number" class="w-full p-3 bg-slate-100 rounded-xl" placeholder="Aporte">
+            <input id="eAbatido" type="number" class="w-full p-3 bg-slate-100 rounded-xl" placeholder="Abatido">
+            <input id="eData" type="date" class="w-full p-3 bg-slate-100 rounded-xl">
+            <button onclick="salvarEdit()" class="w-full bg-[#f97316] text-white p-4 rounded-xl font-black">SALVAR</button>
         </div>
     </div>
 
@@ -73,8 +99,8 @@
         let data = JSON.parse(localStorage.getItem('sos_data')) || {
             clientes: [
                 { nome: 'Diretoria', senha: '123456', isAdm: true },
-                { nome: 'Uli Joias', senha: '987654321', aporte: 5000, abatido: 0, dataAporte: '2026-08-19' },
-                { nome: 'Niara Joias', senha: '123456789', aporte: 9500, abatido: 0, dataAporte: '2026-08-10' }
+                { nome: 'Uli Joias', senha: '987654321', aporte: 5000, abatido: 1000, dataAporte: '2026-08-01' },
+                { nome: 'Niara Joias', senha: '123456789', aporte: 9500, abatido: 2000, dataAporte: '2026-08-05' }
             ]
         };
 
@@ -84,7 +110,7 @@
         function fazerLogin() {
             const c = data.clientes.find(x => x.nome === s.value && x.senha === document.getElementById('inputSenha').value);
             if(c) { sessionStorage.setItem('u', JSON.stringify(c)); location.reload(); }
-            else alert('Acesso negado.');
+            else alert('Erro de Acesso');
         }
 
         function logout() { sessionStorage.removeItem('u'); location.reload(); }
@@ -99,17 +125,51 @@
 
             if(user.isAdm) {
                 document.getElementById('viewDiretoria').classList.remove('hidden');
-                let html = '';
+                let tA=0, tAb=0, html='';
                 data.clientes.filter(x => !x.isAdm).forEach((c, i) => {
-                    html += `<tr class="border-t"><td class="p-3 font-bold">${c.nome}</td><td class="p-3">R$ ${c.aporte} (${c.dataAporte})</td><td class="p-3">R$ ${c.aporte - c.abatido}</td>
-                    <td class="p-3"><button onclick="alert('Funcionalidade de edição')" class="text-orange-500 font-bold underline">EDITAR</button></td></tr>`;
+                    tA += c.aporte; tAb += c.abatido;
+                    html += `<tr class="border-t"><td class="p-3 font-black">${c.nome}</td><td class="p-3">R$ ${c.aporte}</td><td class="p-3">R$ ${c.abatido}</td><td class="p-3">R$ ${c.aporte - c.abatido}</td>
+                    <td class="p-3"><button onclick="abrirEdit(${i})" class="text-[#f97316] font-bold underline">EDITAR</button></td></tr>`;
                 });
                 document.getElementById('tabelaDiretoria').innerHTML = html;
+                document.getElementById('dirTotalCli').innerText = data.clientes.length - 1;
+                document.getElementById('dirTotalApo').innerText = 'R$ ' + tA;
+                document.getElementById('dirTotalAba').innerText = 'R$ ' + tAb;
+                document.getElementById('dirTotalSal').innerText = 'R$ ' + (tA - tAb);
             } else {
                 document.getElementById('viewCliente').classList.remove('hidden');
                 document.getElementById('cliNome').innerText = user.nome;
-                document.getElementById('totaisCliente').innerHTML = `Aporte em: ${user.dataAporte} <br> Saldo: R$ ${user.aporte - user.abatido}`;
+                document.getElementById('cliTotalAporte').innerText = 'R$ ' + user.aporte;
+                document.getElementById('cliTotalAbatido').innerText = 'R$ ' + user.abatido;
+                document.getElementById('cliSaldo').innerText = 'R$ ' + (user.aporte - user.abatido);
+                document.getElementById('graficoDisplay').innerHTML = `<div class="bg-[#f97316] w-20" style="height: ${(user.aporte/10000)*150}px"></div><div class="bg-blue-600 w-20" style="height: ${(user.abatido/10000)*150}px"></div>`;
             }
+        }
+
+        function abrirRegras() {
+            const isNiara = user && user.nome === 'Niara Joias';
+            const html = isNiara ? 
+                `<p><strong>Condição Especial Exclusiva:</strong> 30% até R$ 8.999 | 35% acima de R$ 9.000.</p>` :
+                `<p>Faixas: 0(10%), 2k(20%), 4k(25%), 6k(27%), 9k(30%).</p>`;
+            document.getElementById('conteudoRegras').innerHTML = `<p>O prazo de carência para abatimento é de <strong>10 dias</strong> após o aporte.</p>` + html;
+            toggleModal('modalRegras');
+        }
+
+        function abrirEdit(i) {
+            window.idx = i;
+            let c = i >= 0 ? data.clientes.filter(x => !x.isAdm)[i] : {nome:'', senha:'', aporte:0, abatido:0, dataAporte:''};
+            document.getElementById('eNome').value = c.nome;
+            document.getElementById('eSenha').value = c.senha;
+            document.getElementById('eAporte').value = c.aporte;
+            document.getElementById('eAbatido').value = c.abatido;
+            document.getElementById('eData').value = c.dataAporte || '';
+            toggleModal('modalEdit');
+        }
+
+        function salvarEdit() {
+            // Lógica de salvar...
+            toggleModal('modalEdit');
+            location.reload();
         }
     </script>
 </body>
