@@ -7,60 +7,58 @@
 </head>
 <body class="bg-slate-100 min-h-screen">
 
-    <!-- CABEÇALHO (Layout Original) -->
+    <!-- CABEÇALHO FIEL AO ORIGINAL -->
     <header class="bg-[#0f172a] text-white p-6 border-b-4 border-[#f97316]">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold">S.O.S SOLUÇÕES</h1>
-                <p class="text-xs text-[#f97316] uppercase font-bold tracking-widest">S.O.S CLUBE</p>
+                <h1 class="text-2xl font-bold tracking-wide">S.O.S SOLUÇÕES</h1>
+                <p class="text-[10px] text-[#f97316] uppercase font-bold tracking-widest mt-1">Tecnologia & Apoio Operacional em Semijoias</p>
             </div>
-            <div id="statusLogin" class="text-sm font-bold"></div>
+            <div id="statusLogin" class="text-xs font-bold text-slate-400"></div>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto p-6">
-        <!-- TELA DE LOGIN (Layout original) -->
+        <!-- TELA DE LOGIN -->
         <div id="boxLogin" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 max-w-sm mx-auto mt-10">
-            <h2 class="font-bold mb-4">Acesso ao S.O.S Clube</h2>
+            <h2 class="font-bold text-lg mb-6">Acesso ao S.O.S Clube</h2>
             <select id="selectLogin" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl font-bold"></select>
             <input type="password" id="inputSenha" placeholder="Senha" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl">
-            <button onclick="fazerLogin()" class="w-full bg-[#0f172a] text-white p-3 rounded-xl font-bold">ENTRAR</button>
+            <button onclick="fazerLogin()" class="w-full bg-[#0f172a] hover:bg-slate-800 text-white p-3 rounded-xl font-bold transition">ENTRAR</button>
         </div>
 
-        <!-- DASHBOARD (Conteúdo oculto até logar) -->
+        <!-- DASHBOARD -->
         <div id="boxApp" class="hidden space-y-6">
-            <!-- MENSAGEM VIP (Layout original) -->
             <div id="msgVip" class="bg-slate-900 p-8 rounded-2xl text-white shadow-lg border-l-4 border-[#f97316] hidden">
                 <h2 class="text-2xl font-bold">Parceria Estratégica: <span id="cliNome"></span></h2>
-                <p class="text-slate-300 mt-2">Você é um cliente de importância estratégica para a S.O.S Soluções. Enxergamos em você o parceiro ideal para nosso crescimento.</p>
+                <p class="text-slate-300 mt-2 text-sm max-w-2xl">Você é um cliente de importância estratégica para a S.O.S Soluções. Sua marca de semijoias está em um nível que exige prioridade técnica. Enxergamos em você o parceiro ideal para nossa estrutura.</p>
             </div>
 
-            <!-- TABELA DIRETORIA -->
             <div id="viewDiretoria" class="bg-white p-6 rounded-2xl border hidden">
+                <h2 class="font-bold text-lg mb-4 text-slate-800">Painel Diretoria: Gestão de Aportes</h2>
                 <table class="w-full text-left">
                     <thead class="text-xs uppercase text-slate-400"><tr><th class="p-3">Parceiro</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
                     <tbody id="tabelaDiretoria"></tbody>
                 </table>
             </div>
 
-            <!-- HISTÓRICO CLIENTE -->
             <div id="viewCliente" class="bg-white p-6 rounded-2xl border hidden">
-                <h2 class="font-bold mb-4">Histórico de Aportes</h2>
+                <h2 class="font-bold mb-4 text-slate-800 border-b pb-2">Histórico de Aportes da Marca</h2>
                 <div id="historicoDisplay" class="space-y-2"></div>
             </div>
         </div>
     </main>
 
     <script>
-        // Dados iniciais
+        // Banco de dados inicial
         let data = JSON.parse(localStorage.getItem('sos_data')) || {
             clientes: [
-                { nome: 'Diretoria', senha: '123', isAdm: true },
-                { nome: 'Anela Acessórios', senha: '123', aporte: 2000, hist: ['Aporte inicial: R$ 2000 em 19/08'] }
+                { nome: 'Diretoria', senha: '123456', isAdm: true },
+                { nome: 'Uli Joias', senha: '987654321', aporte: 0, hist: [] },
+                { nome: 'Niara Joias', senha: '123456789', aporte: 0, hist: [] }
             ]
         };
 
-        // Preencher Select
         const s = document.getElementById('selectLogin');
         data.clientes.forEach(c => s.innerHTML += `<option value="${c.nome}">${c.nome}</option>`);
 
@@ -71,38 +69,38 @@
             if(c) {
                 sessionStorage.setItem('u', JSON.stringify(c));
                 location.reload();
-            } else alert('Senha incorreta.');
+            } else alert('Senha incorreta!');
         }
 
-        // Carregar visão
         const user = JSON.parse(sessionStorage.getItem('u'));
         if(user) {
             document.getElementById('boxLogin').classList.add('hidden');
             document.getElementById('boxApp').classList.remove('hidden');
+            document.getElementById('statusLogin').innerText = 'Logado: ' + user.nome;
+            
             if(user.isAdm) {
                 document.getElementById('viewDiretoria').classList.remove('hidden');
                 let html = '';
                 data.clientes.filter(x => !x.isAdm).forEach((c, i) => {
-                    html += `<tr class="border-t">
-                        <td class="p-3 font-bold">${c.nome}</td>
-                        <td class="p-3">R$ ${c.aporte}</td>
-                        <td class="p-3"><button onclick="editar(${i})" class="text-[#f97316] font-bold">EDITAR</button></td>
-                    </tr>`;
+                    html += `<tr class="border-t"><td class="p-3 font-bold">${c.nome}</td><td class="p-3">R$ ${c.aporte.toFixed(2)}</td>
+                        <td class="p-3"><button onclick="editar(${i})" class="text-[#f97316] font-bold underline">EDITAR VALOR</button></td></tr>`;
                 });
                 document.getElementById('tabelaDiretoria').innerHTML = html;
             } else {
                 document.getElementById('viewCliente').classList.remove('hidden');
                 document.getElementById('msgVip').classList.remove('hidden');
                 document.getElementById('cliNome').innerText = user.nome;
-                document.getElementById('historicoDisplay').innerHTML = user.hist.map(h => `<p class="border-b py-2 text-sm">${h}</p>`).join('');
+                document.getElementById('historicoDisplay').innerHTML = user.hist.length > 0 ? 
+                    user.hist.map(h => `<p class="border-b py-2 text-sm text-slate-600">${h}</p>`).join('') : '<p class="text-slate-400">Nenhum aporte registrado.</p>';
             }
         }
 
         function editar(i) {
-            let novo = prompt("Novo valor do aporte:");
+            let novo = prompt("Novo valor do aporte para " + data.clientes.filter(x => !x.isAdm)[i].nome);
             if(novo) {
-                data.clientes.filter(x => !x.isAdm)[i].aporte = parseFloat(novo);
-                data.clientes.filter(x => !x.isAdm)[i].hist.push("Atualização em " + new Date().toLocaleDateString() + ": R$ " + novo);
+                let cli = data.clientes.filter(x => !x.isAdm)[i];
+                cli.aporte = parseFloat(novo);
+                cli.hist.push(new Date().toLocaleDateString() + ": Aporte ajustado para R$ " + novo);
                 localStorage.setItem('sos_data', JSON.stringify(data));
                 location.reload();
             }
