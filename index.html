@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    <!-- MODAL EDIÇÃO DIRETORIA (COM HISTÓRICO DETALHADO E GRÁFICO DIRETORIA) -->
+    <!-- MODAL EDIÇÃO DIRETORIA -->
     <div id="modalEdit" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center p-4 z-50 backdrop-blur-sm">
         <div class="bg-white p-8 rounded-3xl max-w-lg w-full space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto">
             <h3 id="modalTitulo" class="font-black text-xl text-slate-900">Gerenciar Parceiro</h3>
@@ -154,8 +154,8 @@
         let data = JSON.parse(localStorage.getItem('sos_clube_data')) || {
             clientes: [
                 { nome: 'Diretoria', senha: '123456', isAdm: true },
-                { nome: 'Uli Joias', senha: '987654321', aporte: 5000, abatido: 1000, dataAporte: '2026-08-01', hist: ['01/08/2026: Aporte inicial de R$ 5000,00', '10/08/2026: Abatimento de serviço R$ 1000,00'] },
-                { nome: 'Niara Joias', senha: '123456789', aporte: 9500, abatido: 2000, dataAporte: '2026-08-01', hist: ['01/08/2026: Aporte inicial de R$ 9500,00', '15/08/2026: Abatimento de serviço R$ 2000,00'] }
+                { nome: 'Uli Joias', senha: '987654321', aporte: 0, abatido: 0, dataAporte: '', hist: [] },
+                { nome: 'Niara Joias', senha: '123456789', aporte: 3623.13, abatido: 0, dataAporte: '2026-08-01', hist: ['01/08/2026: Aporte R$ 3623,13'] }
             ]
         };
 
@@ -329,7 +329,12 @@
                 let cReal = data.clientes.find(x => x.nome === listaNorm[window.editIdx].nome);
                 cReal.nome = nome; cReal.senha = senha; cReal.aporte = aporte; cReal.abatido = abatido; cReal.dataAporte = dataAporte;
                 if(!cReal.hist) cReal.hist = [];
-                if(novoHist) cReal.hist.push(novoHist);
+                if(novoHist) {
+                    cReal.hist.push(novoHist);
+                } else {
+                    // Atualiza o registro geral no histórico caso os valores mudem diretamente
+                    cReal.hist.push(`${new Date().toLocaleDateString('pt-BR')}: Ajuste de Aporte (R$ ${aporte.toFixed(2)}) / Abatido (R$ ${abatido.toFixed(2)})`);
+                }
             }
 
             localStorage.setItem('sos_clube_data', JSON.stringify(data));
