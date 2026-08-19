@@ -2,138 +2,349 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S.O.S Soluções - Clube S.O.S Carta de Crédito</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>body { font-family: sans-serif; }</style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400,500,600,700,900&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body class="bg-slate-100 min-h-screen">
+<body class="bg-slate-100 min-h-screen text-slate-800">
 
-    <header class="bg-[#0f172a] text-white p-6 border-b-4 border-[#f97316]">
+    <!-- CABEÇALHO OFICIAL -->
+    <header class="bg-[#0f172a] text-white p-6 border-b-4 border-[#f97316] shadow-md">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold tracking-wide">S.O.S SOLUÇÕES</h1>
-                <p class="text-[10px] text-[#f97316] uppercase font-bold tracking-widest mt-1">Clube S.O.S Carta de Crédito</p>
+                <h1 class="text-2xl font-black tracking-wide">S.O.S SOLUÇÕES</h1>
+                <p class="text-[10px] text-[#f97316] uppercase font-extrabold tracking-widest mt-1">Clube S.O.S Carta de Crédito</p>
             </div>
             <div id="statusArea" class="hidden flex items-center gap-4">
                 <span id="labelUser" class="text-xs font-bold uppercase text-slate-300"></span>
-                <button onclick="logout()" class="bg-red-600 px-4 py-2 rounded-lg text-[10px] font-bold uppercase">Sair</button>
+                <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase transition">Sair</button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-6 space-y-6">
-        <div id="boxLogin" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 max-w-sm mx-auto mt-10">
-            <h2 class="font-bold text-lg mb-4">Acesso ao Clube</h2>
-            <select id="selectLogin" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl font-bold"></select>
-            <input type="password" id="inputSenha" placeholder="Senha" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl">
-            <button onclick="fazerLogin()" class="w-full bg-[#0f172a] hover:bg-slate-800 text-white p-3 rounded-xl font-bold transition">ENTRAR</button>
+    <main class="max-w-7xl mx-auto p-6 space-y-8">
+        
+        <!-- TELA DE LOGIN -->
+        <div id="boxLogin" class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 max-w-sm mx-auto mt-12 space-y-6">
+            <div class="text-center">
+                <h2 class="font-bold text-xl text-slate-900">Acesso ao Clube</h2>
+                <p class="text-xs text-slate-400 mt-1">Selecione sua marca e digite sua senha</p>
+            </div>
+            <select id="selectLogin" class="w-full p-3.5 bg-slate-50 border rounded-2xl font-bold text-sm outline-none focus:ring-2 focus:ring-[#f97316]"></select>
+            <input type="password" id="inputSenha" placeholder="Senha" class="w-full p-3.5 bg-slate-50 border rounded-2xl text-sm outline-none focus:ring-2 focus:ring-[#f97316]">
+            <button onclick="fazerLogin()" class="w-full bg-[#0f172a] hover:bg-slate-900 text-white p-4 rounded-2xl font-black transition text-sm shadow">ENTRAR NO PAINEL</button>
         </div>
 
-        <div id="boxApp" class="hidden space-y-6">
-            <button onclick="toggleModal('modalRegras')" class="bg-[#f97316] text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md">❓ COMO FUNCIONA / REGRAS</button>
+        <!-- APP PRINCIPAL -->
+        <div id="boxApp" class="hidden space-y-8">
+            <button onclick="abrirRegras()" class="bg-[#f97316] hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl text-xs font-extrabold shadow transition flex items-center gap-2">
+                <span>📖</span> COMO FUNCIONA / REGRAS DA CARTA
+            </button>
 
-            <div id="viewCliente" class="hidden space-y-6">
-                <div class="bg-slate-900 p-8 rounded-2xl text-white">
-                    <h2 class="text-2xl font-bold">Parceria Estratégica: <span id="cliNome"></span></h2>
-                    <p class="text-slate-300 text-sm mt-2">Sua marca é um pilar da S.O.S. Seu aporte fortalece nosso fluxo de caixa e garante descontos exclusivos na sua margem.</p>
+            <!-- PAINEL CLIENTE -->
+            <div id="viewCliente" class="hidden space-y-8">
+                <!-- REVERÊNCIA E VALORIZAÇÃO DO FLUXO DE CAIXA -->
+                <div class="bg-slate-900 p-8 lg:p-10 rounded-3xl text-white shadow-xl space-y-4 border-l-4 border-[#f97316]">
+                    <span class="bg-[#f97316] text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-md tracking-wider">Parceiro Estratégico</span>
+                    <h2 class="text-3xl font-black">Olá, <span id="cliNome"></span>!</h2>
+                    <p class="text-slate-300 text-sm lg:text-base leading-relaxed">
+                        É uma honra ter a sua marca em nosso ecossistema. A criação do <strong>Clube S.O.S Carta de Crédito</strong> é um pacto mútuo de crescimento: ao nos auxiliar com o aporte que fortalece o nosso fluxo de caixa, garantimos a você <strong>descontos especiais altamente competitivos</strong> que blindam e expandem a sua margem de lucro, além de assegurar prioridade absoluta em nossa estrutura técnica.
+                    </p>
                 </div>
-                <div id="totaisCliente" class="grid grid-cols-3 gap-4 font-bold"></div>
-                <div id="historicoDisplay" class="bg-white p-6 rounded-2xl border space-y-2"></div>
+
+                <!-- CARDS DE TOTAIS -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-3xl border shadow-sm space-y-1">
+                        <span class="text-xs font-bold text-slate-400 uppercase">Total Aportado</span>
+                        <div id="cliTotalAporte" class="text-3xl font-black text-slate-900">R$ 0,00</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border shadow-sm space-y-1">
+                        <span class="text-xs font-bold text-slate-400 uppercase">Total Já Abatido</span>
+                        <div id="cliTotalAbatido" class="text-3xl font-black text-blue-600">R$ 0,00</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-3xl border shadow-sm space-y-1">
+                        <span class="text-xs font-bold text-slate-400 uppercase">Saldo Disponível na Carta</span>
+                        <div id="cliSaldo" class="text-3xl font-black text-[#f97316]">R$ 0,00</div>
+                    </div>
+                </div>
+
+                <!-- HISTÓRICO E GRÁFICO DE APORTES -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 lg:p-8 rounded-3xl border shadow-sm space-y-4">
+                        <h3 class="font-bold text-lg text-slate-900">Histórico de Aportes e Abatimentos</h3>
+                        <div id="historicoDisplay" class="space-y-3 text-sm text-slate-600 max-h-60 overflow-y-auto pr-2"></div>
+                    </div>
+                    <div class="bg-white p-6 lg:p-8 rounded-3xl border shadow-sm space-y-4 flex flex-col">
+                        <h3 class="font-bold text-lg text-slate-900">Gráfico de Evolução (Aportado vs Abatido)</h3>
+                        <div class="flex-1 bg-slate-50 border rounded-2xl p-4 flex items-end justify-around gap-4 h-48" id="graficoClienteContainer"></div>
+                    </div>
+                </div>
             </div>
 
-            <div id="viewDiretoria" class="bg-white p-6 rounded-2xl border hidden space-y-4">
-                <h2 class="font-bold text-lg">Painel Diretoria</h2>
-                <table class="w-full text-left">
-                    <thead class="text-xs uppercase text-slate-400"><tr><th class="p-3">Marca</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
-                    <tbody id="tabelaDiretoria"></tbody>
-                </table>
+            <!-- PAINEL DIRETORIA -->
+            <div id="viewDiretoria" class="hidden space-y-8">
+                <!-- RESUMO GERAL DIRETORIA -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-3xl border shadow-sm space-y-1"><span class="text-xs font-bold text-slate-400 uppercase">Parceiros</span><div id="dirTotalCli" class="text-3xl font-black text-slate-900">0</div></div>
+                    <div class="bg-white p-6 rounded-3xl border shadow-sm space-y-1"><span class="text-xs font-bold text-slate-400 uppercase">Total Aportado</span><div id="dirTotalApo" class="text-3xl font-black text-[#f97316]">R$ 0,00</div></div>
+                    <div class="bg-white p-6 rounded-3xl border shadow-sm space-y-1"><span class="text-xs font-bold text-slate-400 uppercase">Total Abatido</span><div id="dirTotalAba" class="text-3xl font-black text-blue-600">R$ 0,00</div></div>
+                    <div class="bg-white p-6 rounded-3xl border shadow-sm space-y-1"><span class="text-xs font-bold text-slate-400 uppercase">Saldo em Caixa</span><div id="dirTotalSal" class="text-3xl font-black text-slate-900">R$ 0,00</div></div>
+                </div>
+
+                <!-- TABELA DIRETORIA -->
+                <div class="bg-white p-6 lg:p-8 rounded-3xl border shadow-sm space-y-6">
+                    <div class="flex justify-between items-center border-b pb-4">
+                        <h2 class="font-black text-xl text-slate-900">Gestão de Parceiros & Cartas de Crédito</h2>
+                        <button onclick="abrirNovoCliente()" class="bg-[#0f172a] text-white px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-900 transition">+ Cadastrar Parceiro</button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b text-xs font-bold text-slate-400 uppercase bg-slate-50">
+                                    <th class="p-4">Parceiro</th>
+                                    <th class="p-4">Último Aporte</th>
+                                    <th class="p-4">Aportado</th>
+                                    <th class="p-4">Abatido</th>
+                                    <th class="p-4">Saldo</th>
+                                    <th class="p-4 text-center">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaDiretoria" class="text-sm divide-y divide-slate-100 font-medium"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- MODAL REGRAS -->
-    <div id="modalRegras" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-2xl max-w-lg w-full space-y-4">
-            <h2 class="font-bold text-lg border-b pb-2">Como funciona o S.O.S Clube</h2>
-            <div id="conteudoRegras" class="text-sm text-slate-600"></div>
-            <button onclick="toggleModal('modalRegras')" class="w-full bg-[#0f172a] text-white p-3 rounded-lg">Entendido</button>
+    <!-- MODAL REGRAS CORRIGIDO E DINÂMICO -->
+    <div id="modalRegras" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+        <div class="bg-white p-8 lg:p-10 rounded-3xl max-w-xl w-full max-h-[85vh] overflow-y-auto space-y-6 shadow-2xl">
+            <div class="flex justify-between items-center border-b pb-4">
+                <h3 class="font-black text-2xl text-slate-900">Manual de Parceria S.O.S</h3>
+                <button onclick="toggleModal('modalRegras')" class="text-slate-400 hover:text-slate-700 font-black text-xl">✕</button>
+            </div>
+            <div id="conteudoRegras" class="text-sm text-slate-600 space-y-4 leading-relaxed"></div>
+            <button onclick="toggleModal('modalRegras')" class="w-full bg-[#f97316] hover:bg-orange-600 text-white p-4 rounded-2xl font-black transition text-sm">Entendido</button>
         </div>
     </div>
 
-    <!-- MODAL EDICAO -->
-    <div id="modalEdit" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-2xl max-w-sm w-full space-y-4">
-            <h2 class="font-bold text-lg">Editar Parceiro</h2>
-            <input id="eAporte" type="number" class="w-full p-3 bg-slate-50 border rounded-xl" placeholder="Aporte">
-            <input id="eAbatido" type="number" class="w-full p-3 bg-slate-50 border rounded-xl" placeholder="Abatido">
-            <input id="eNovoHist" class="w-full p-3 bg-slate-50 border rounded-xl" placeholder="Data: Descrição Movimento">
-            <button onclick="salvarEdit()" class="w-full bg-[#f97316] text-white p-4 rounded-xl font-bold">SALVAR</button>
+    <!-- MODAL EDIÇÃO DIRETORIA (COM HISTÓRICO DETALHADO E GRÁFICO DIRETORIA) -->
+    <div id="modalEdit" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+        <div class="bg-white p-8 rounded-3xl max-w-lg w-full space-y-5 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <h3 id="modalTitulo" class="font-black text-xl text-slate-900">Gerenciar Parceiro</h3>
+            <div class="space-y-4 text-xs font-bold text-slate-600 uppercase">
+                <div><label>Nome</label><input id="eNome" class="w-full p-3 bg-slate-50 border rounded-2xl mt-1 text-sm font-normal lowercase"></div>
+                <div><label>Senha</label><input id="eSenha" class="w-full p-3 bg-slate-50 border rounded-2xl mt-1 text-sm font-normal"></div>
+                <div><label>Aporte Total (R$)</label><input id="eAporte" type="number" step="0.01" class="w-full p-3 bg-slate-50 border rounded-2xl mt-1 text-sm font-normal"></div>
+                <div><label>Total Abatido (R$)</label><input id="eAbatido" type="number" step="0.01" class="w-full p-3 bg-slate-50 border rounded-2xl mt-1 text-sm font-normal"></div>
+                <div><label>Data do Último Aporte</label><input id="eData" type="date" class="w-full p-3 bg-slate-50 border rounded-2xl mt-1 text-sm font-normal"></div>
+                <div><label>Adicionar Novo Histórico (Ex: 2026-08-19: Aporte R$ 1000)</label><input id="eNovoHist" class="w-full p-3 bg-slate-50 border rounded-2xl mt-1 text-sm font-normal lowercase" placeholder="Data: Descrição do movimento"></div>
+            </div>
+            <div class="pt-2 flex gap-3">
+                <button onclick="toggleModal('modalEdit')" class="w-1/2 bg-slate-200 p-3.5 rounded-2xl font-bold text-sm text-slate-700">Cancelar</button>
+                <button onclick="salvarEdit()" class="w-1/2 bg-[#f97316] text-white p-3.5 rounded-2xl font-bold text-sm shadow">Salvar</button>
+            </div>
         </div>
     </div>
 
     <script>
-        let data = JSON.parse(localStorage.getItem('sos_data')) || {
+        let data = JSON.parse(localStorage.getItem('sos_clube_data')) || {
             clientes: [
                 { nome: 'Diretoria', senha: '123456', isAdm: true },
-                { nome: 'Uli Joias', senha: '987654321', aporte: 0, abatido: 0, hist: [] },
-                { nome: 'Niara Joias', senha: '123456789', aporte: 3623.13, abatido: 0, hist: ['01/08/2026: Aporte R$ 3623,13'] }
+                { nome: 'Uli Joias', senha: '987654321', aporte: 5000, abatido: 1000, dataAporte: '2026-08-01', hist: ['01/08/2026: Aporte inicial de R$ 5000,00', '10/08/2026: Abatimento de serviço R$ 1000,00'] },
+                { nome: 'Niara Joias', senha: '123456789', aporte: 9500, abatido: 2000, dataAporte: '2026-08-01', hist: ['01/08/2026: Aporte inicial de R$ 9500,00', '15/08/2026: Abatimento de serviço R$ 2000,00'] }
             ]
         };
 
+        const selectLogin = document.getElementById('selectLogin');
         function atualizarSelect() {
-            const s = document.getElementById('selectLogin');
-            s.innerHTML = data.clientes.map(c => `<option value="${c.nome}">${c.nome}</option>`).join('');
+            selectLogin.innerHTML = '<option value="">Selecione sua marca...</option>';
+            data.clientes.forEach(c => selectLogin.innerHTML += `<option value="${c.nome}">${c.nome}</option>`);
         }
         atualizarSelect();
 
         function fazerLogin() {
-            const c = data.clientes.find(x => x.nome === document.getElementById('selectLogin').value && x.senha === document.getElementById('inputSenha').value);
-            if(c) { sessionStorage.setItem('u', JSON.stringify(c)); location.reload(); }
-            else alert('Senha incorreta!');
+            const nome = selectLogin.value;
+            const senha = document.getElementById('inputSenha').value;
+            const c = data.clientes.find(x => x.nome === nome && x.senha === senha);
+            if(c) {
+                sessionStorage.setItem('sos_user', JSON.stringify(c));
+                location.reload();
+            } else alert('Nome ou senha incorretos.');
         }
 
-        function logout() { sessionStorage.removeItem('u'); location.reload(); }
+        function logout() { sessionStorage.removeItem('sos_user'); location.reload(); }
         function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
 
-        const u = JSON.parse(sessionStorage.getItem('u'));
-        if(u) {
+        const user = JSON.parse(sessionStorage.getItem('sos_user'));
+        if(user) {
             document.getElementById('boxLogin').classList.add('hidden');
             document.getElementById('boxApp').classList.remove('hidden');
             document.getElementById('statusArea').classList.remove('hidden');
-            document.getElementById('labelUser').innerText = u.nome;
-            if(u.isAdm) {
+            document.getElementById('labelUser').innerText = user.nome;
+
+            if(user.isAdm) {
                 document.getElementById('viewDiretoria').classList.remove('hidden');
-                document.getElementById('tabelaDiretoria').innerHTML = data.clientes.filter(x=>!x.isAdm).map((c,i) => `<tr><td class="p-3 font-bold">${c.nome}</td><td class="p-3">R$ ${c.aporte-c.abatido}</td><td class="p-3"><button onclick="abrirEdit(${i})" class="text-orange-500 font-bold">EDITAR</button></td></tr>`).join('');
+                renderDiretoria();
             } else {
                 document.getElementById('viewCliente').classList.remove('hidden');
-                document.getElementById('cliNome').innerText = u.nome;
-                document.getElementById('totaisCliente').innerHTML = `<div>Aporte: R$ ${u.aporte}</div><div>Abatido: R$ ${u.abatido}</div><div>Saldo: R$ ${u.aporte-u.abatido}</div>`;
-                document.getElementById('historicoDisplay').innerHTML = u.hist.map(h => `<p class="border-b py-2">${h}</p>`).join('');
+                document.getElementById('cliNome').innerText = user.nome;
+                let saldo = user.aporte - user.abatido;
+                document.getElementById('cliTotalAporte').innerText = `R$ ${user.aporte.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                document.getElementById('cliTotalAbatido').innerText = `R$ ${user.abatido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                document.getElementById('cliSaldo').innerText = `R$ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+
+                // Histórico cliente
+                let histHtml = '';
+                if(user.hist && user.hist.length > 0) {
+                    user.hist.forEach(h => histHtml += `<div class="p-3 bg-slate-50 rounded-2xl border text-xs font-semibold">${h}</div>`);
+                } else {
+                    histHtml = '<p class="text-xs text-slate-400">Nenhum histórico registrado.</p>';
+                }
+                document.getElementById('historicoDisplay').innerHTML = histHtml;
+
+                // Gráfico do Cliente
+                const grafico = document.getElementById('graficoClienteContainer');
+                let maxVal = user.aporte > 0 ? user.aporte : 1;
+                grafico.innerHTML = `
+                    <div class="flex flex-col items-center gap-1 h-full justify-end flex-1">
+                        <span class="text-[9px] font-bold text-slate-500">R$ ${user.aporte}</span>
+                        <div class="w-14 bg-[#0f172a] rounded-t-xl" style="height: 100%;"></div>
+                        <span class="text-[11px] font-bold text-slate-700">Aportado</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1 h-full justify-end flex-1">
+                        <span class="text-[9px] font-bold text-slate-500">R$ ${user.abatido}</span>
+                        <div class="w-14 bg-blue-600 rounded-t-xl" style="height: ${(user.abatido/maxVal)*100}%;"></div>
+                        <span class="text-[11px] font-bold text-slate-700">Abatido</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1 h-full justify-end flex-1">
+                        <span class="text-[9px] font-bold text-slate-500">R$ ${saldo}</span>
+                        <div class="w-14 bg-[#f97316] rounded-t-xl" style="height: ${(saldo/maxVal)*100}%;"></div>
+                        <span class="text-[11px] font-bold text-slate-700">Saldo</span>
+                    </div>
+                `;
             }
         }
 
+        function abrirRegras() {
+            const isNiara = user && user.nome.trim().toLowerCase() === 'niara joias';
+            let htmlRegras = `
+                <p>O <strong>Clube S.O.S Carta de Crédito</strong> é um compromisso mútuo para blindar o seu e o nosso fluxo de caixa, maximizando diretamente a sua margem de lucro em semijoias.</p>
+                <div class="bg-orange-50 p-4 rounded-2xl border-l-4 border-[#f97316] space-y-1">
+                    <h4 class="font-black text-slate-900 text-xs uppercase">Regra de Carência (10 Dias)</h4>
+                    <p class="text-xs text-slate-700">O valor aportado começa a valer para abatimento e desconto após o prazo de <strong>10 dias da data do registro do aporte</strong>.</p>
+                </div>
+                <h4 class="font-black text-slate-900 pt-2">Tabela de Descontos Progressivos:</h4>
+                <div class="grid grid-cols-1 gap-2 text-xs">
+                    <div class="bg-slate-50 p-2.5 rounded-xl border">R$ 0 a R$ 1.999: <strong>10% de desconto</strong></div>
+                    <div class="bg-slate-50 p-2.5 rounded-xl border">R$ 2.000 a R$ 3.999: <strong>20% de desconto</strong></div>
+                    <div class="bg-slate-50 p-2.5 rounded-xl border">R$ 4.000 a R$ 5.999: <strong>25% de desconto</strong></div>
+                    <div class="bg-slate-50 p-2.5 rounded-xl border">R$ 6.000 a R$ 8.999: <strong>27% de desconto</strong></div>
+                    <div class="bg-slate-50 p-2.5 rounded-xl border">R$ 9.000 ou mais: <strong>30% de desconto</strong></div>
+                </div>
+            `;
+
+            if (isNiara || (user && user.isAdm)) {
+                htmlRegras += `
+                    <div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-200 mt-4 space-y-2">
+                        <h4 class="font-black text-indigo-900 text-xs uppercase">Condição Exclusiva Niara Joias</h4>
+                        <p class="text-xs text-indigo-800">Até R$ 8.999: <strong>30% de desconto</strong> | Acima de R$ 9.000: <strong>35% de desconto</strong></p>
+                    </div>
+                `;
+            }
+            document.getElementById('conteudoRegras').innerHTML = htmlRegras;
+            toggleModal('modalRegras');
+        }
+
+        function renderDiretoria() {
+            let tApo = 0, tAba = 0, tCli = 0;
+            let html = '';
+            data.clientes.filter(x => !x.isAdm).forEach((c, i) => {
+                let saldo = c.aporte - c.abatido;
+                tApo += c.aporte; tAba += c.abatido; tCli++;
+                html += `
+                    <tr class="hover:bg-slate-50 transition">
+                        <td class="p-4 font-bold text-slate-900">${c.nome}</td>
+                        <td class="p-4 text-slate-600">${c.dataAporte || 'Não informada'}</td>
+                        <td class="p-4 font-bold text-[#f97316]">R$ ${c.aporte.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                        <td class="p-4 font-bold text-blue-600">R$ ${c.abatido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                        <td class="p-4 font-extrabold text-slate-900">R$ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                        <td class="p-4 text-center flex justify-center gap-2">
+                            <button onclick="abrirEdit(${i})" class="bg-orange-50 text-[#f97316] hover:bg-orange-100 px-3 py-1.5 rounded-xl text-xs font-bold transition">Editar</button>
+                            <button onclick="excluirCli(${i})" class="bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-xl text-xs font-bold transition">Excluir</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById('tabelaDiretoria').innerHTML = html;
+            document.getElementById('dirTotalCli').innerText = tCli;
+            document.getElementById('dirTotalApo').innerText = `R$ ${tApo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('dirTotalAbatido').innerText = `R$ ${tAba.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('dirTotalSal').innerText = `R$ ${(tApo - tAba).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+        }
+
+        function abrirNovoCliente() {
+            window.editIdx = -1;
+            document.getElementById('modalTitulo').innerText = "Cadastrar Novo Parceiro";
+            document.getElementById('eNome').value = "";
+            document.getElementById('eSenha').value = "";
+            document.getElementById('eAporte').value = "";
+            document.getElementById('eAbatido').value = "0";
+            document.getElementById('eData').value = new Date().toISOString().split('T')[0];
+            document.getElementById('eNovoHist').value = "";
+            toggleModal('modalEdit');
+        }
+
         function abrirEdit(i) {
-            window.idx = i;
-            let c = data.clientes.filter(x=>!x.isAdm)[i];
+            window.editIdx = i;
+            let c = data.clientes.filter(x => !x.isAdm)[i];
+            document.getElementById('modalTitulo').innerText = "Editar: " + c.nome;
+            document.getElementById('eNome').value = c.nome;
+            document.getElementById('eSenha').value = c.senha;
             document.getElementById('eAporte').value = c.aporte;
             document.getElementById('eAbatido').value = c.abatido;
+            document.getElementById('eData').value = c.dataAporte || '';
+            document.getElementById('eNovoHist').value = '';
             toggleModal('modalEdit');
         }
 
         function salvarEdit() {
-            let c = data.clientes.filter(x=>!x.isAdm)[window.idx];
-            c.aporte = parseFloat(document.getElementById('eAporte').value);
-            c.abatido = parseFloat(document.getElementById('eAbatido').value);
-            let hist = document.getElementById('eNovoHist').value;
-            if(hist) c.hist.push(hist);
-            localStorage.setItem('sos_data', JSON.stringify(data));
+            let nome = document.getElementById('eNome').value.trim();
+            let senha = document.getElementById('eSenha').value.trim();
+            let aporte = parseFloat(document.getElementById('eAporte').value) || 0;
+            let abatido = parseFloat(document.getElementById('eAbatido').value) || 0;
+            let dataAporte = document.getElementById('eData').value;
+            let novoHist = document.getElementById('eNovoHist').value.trim();
+
+            let listaNorm = data.clientes.filter(x => !x.isAdm);
+            if(window.editIdx === -1) {
+                data.clientes.push({
+                    nome: nome, senha: senha, aporte: aporte, abatido: abatido, dataAporte: dataAporte,
+                    hist: novoHist ? [novoHist] : [`${dataAporte}: Aporte inicial de R$ ${aporte.toFixed(2)}`]
+                });
+            } else {
+                let cReal = data.clientes.find(x => x.nome === listaNorm[window.editIdx].nome);
+                cReal.nome = nome; cReal.senha = senha; cReal.aporte = aporte; cReal.abatido = abatido; cReal.dataAporte = dataAporte;
+                if(!cReal.hist) cReal.hist = [];
+                if(novoHist) cReal.hist.push(novoHist);
+            }
+
+            localStorage.setItem('sos_clube_data', JSON.stringify(data));
+            toggleModal('modalEdit');
             location.reload();
         }
 
-        function abrirRegras() {
-            const isNiara = u && u.nome === 'Niara Joias';
-            document.getElementById('conteudoRegras').innerHTML = isNiara ? "Niara: 30% até 8.9k, 35% acima de 9k. Prazo 10 dias." : "Padrão: 10% a 30%. Prazo 10 dias.";
-            toggleModal('modalRegras');
+        function excluirCli(i) {
+            if(confirm("Deseja excluir este parceiro?")) {
+                let listaNorm = data.clientes.filter(x => !x.isAdm);
+                let nomeAlvo = listaNorm[i].nome;
+                data.clientes = data.clientes.filter(x => x.nome !== nomeAlvo);
+                localStorage.setItem('sos_clube_data', JSON.stringify(data));
+                location.reload();
+            }
         }
     </script>
 </body>
