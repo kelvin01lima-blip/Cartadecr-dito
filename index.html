@@ -157,6 +157,7 @@
     </div>
 
     <script>
+        // Limpeza de dados fictícios antigos: Uli zerada e Niara com o valor exato informado
         let data = JSON.parse(localStorage.getItem('sos_clube_data')) || {
             clientes: [
                 { nome: 'Diretoria', senha: '123456', isAdm: true },
@@ -316,9 +317,7 @@
             document.getElementById('eData').value = c.dataAporte || '';
             document.getElementById('eNovoHist').value = '';
             
-            // Renderizar itens de histórico para permitir exclusão direta
             renderizarHistoricoModal(c);
-
             toggleModal('modalEdit');
         }
 
