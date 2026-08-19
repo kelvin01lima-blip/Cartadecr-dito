@@ -2,67 +2,49 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S.O.S Soluções - Clube S.O.S Carta de Crédito</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400,500,600,700,900&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
+    <style>body { font-family: sans-serif; }</style>
 </head>
-<body class="bg-slate-100 min-h-screen text-slate-800">
+<body class="bg-slate-100 min-h-screen">
 
-    <!-- CABEÇALHO OFICIAL -->
-    <header class="bg-[#0f172a] text-white p-6 border-b-4 border-[#f97316] shadow-md">
+    <header class="bg-[#0f172a] text-white p-6 border-b-4 border-[#f97316]">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-black tracking-wide">S.O.S SOLUÇÕES</h1>
-                <p class="text-[10px] text-[#f97316] uppercase font-extrabold tracking-widest mt-1">Clube S.O.S Carta de Crédito</p>
+                <h1 class="text-2xl font-bold tracking-wide">S.O.S SOLUÇÕES</h1>
+                <p class="text-[10px] text-[#f97316] uppercase font-bold tracking-widest mt-1">Clube S.O.S Carta de Crédito</p>
             </div>
             <div id="statusArea" class="hidden flex items-center gap-4">
                 <span id="labelUser" class="text-xs font-bold uppercase text-slate-300"></span>
-                <button onclick="logout()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-xs font-bold uppercase transition">Sair</button>
+                <button onclick="logout()" class="bg-red-600 px-4 py-2 rounded-lg text-[10px] font-bold uppercase">Sair</button>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-6 space-y-8">
-        <!-- TELA DE LOGIN -->
-        <div id="boxLogin" class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 max-w-sm mx-auto mt-12 space-y-6">
-            <div class="text-center">
-                <h2 class="font-bold text-xl text-slate-900">Acesso ao Clube</h2>
-            </div>
-            <select id="selectLogin" class="w-full p-3.5 bg-slate-50 border rounded-2xl font-bold text-sm outline-none"></select>
-            <input type="password" id="inputSenha" placeholder="Senha" class="w-full p-3.5 bg-slate-50 border rounded-2xl text-sm outline-none">
-            <button onclick="fazerLogin()" class="w-full bg-[#0f172a] hover:bg-slate-900 text-white p-4 rounded-2xl font-black transition text-sm shadow">ENTRAR</button>
+    <main class="max-w-7xl mx-auto p-6 space-y-6">
+        <div id="boxLogin" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 max-w-sm mx-auto mt-10">
+            <h2 class="font-bold text-lg mb-4">Acesso ao Clube</h2>
+            <select id="selectLogin" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl font-bold"></select>
+            <input type="password" id="inputSenha" placeholder="Senha" class="w-full p-3 mb-4 bg-slate-50 border rounded-xl">
+            <button onclick="fazerLogin()" class="w-full bg-[#0f172a] hover:bg-slate-800 text-white p-3 rounded-xl font-bold transition">ENTRAR</button>
         </div>
 
-        <!-- APP PRINCIPAL -->
-        <div id="boxApp" class="hidden space-y-8">
-            <button onclick="abrirRegras()" class="bg-[#f97316] text-white px-5 py-2.5 rounded-xl text-xs font-extrabold shadow transition">📖 COMO FUNCIONA / REGRAS</button>
+        <div id="boxApp" class="hidden space-y-6">
+            <button onclick="toggleModal('modalRegras')" class="bg-[#f97316] text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md">❓ COMO FUNCIONA / REGRAS</button>
 
-            <!-- PAINEL CLIENTE -->
-            <div id="viewCliente" class="hidden space-y-8">
-                <div class="bg-slate-900 p-10 rounded-3xl text-white border-l-4 border-[#f97316]">
-                    <h2 class="text-3xl font-black">Parceria Estratégica: <span id="cliNome" class="text-[#f97316]"></span></h2>
-                    <p class="text-slate-300 text-sm mt-3 leading-relaxed">Você é um parceiro de alta importância. O Clube S.O.S Carta de Crédito blinda nosso fluxo de caixa e garante a você descontos especiais que elevam a margem de lucro da sua marca.</p>
+            <div id="viewCliente" class="hidden space-y-6">
+                <div class="bg-slate-900 p-8 rounded-2xl text-white">
+                    <h2 class="text-2xl font-bold">Parceria Estratégica: <span id="cliNome"></span></h2>
+                    <p class="text-slate-300 text-sm mt-2">Sua marca é um pilar da S.O.S. Seu aporte fortalece nosso fluxo de caixa e garante descontos exclusivos na sua margem.</p>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white p-6 rounded-3xl border shadow-sm"><span class="text-[10px] font-bold text-slate-400 uppercase">Total Aportado</span><div id="cliTotalAporte" class="text-2xl font-black mt-1">R$ 0,00</div></div>
-                    <div class="bg-white p-6 rounded-3xl border shadow-sm"><span class="text-[10px] font-bold text-slate-400 uppercase">Total Abatido</span><div id="cliTotalAbatido" class="text-2xl font-black mt-1 text-blue-600">R$ 0,00</div></div>
-                    <div class="bg-white p-6 rounded-3xl border shadow-sm"><span class="text-[10px] font-bold text-slate-400 uppercase">Saldo Disponível</span><div id="cliSaldo" class="text-2xl font-black mt-1 text-[#f97316]">R$ 0,00</div></div>
-                </div>
-
-                <div class="bg-white p-8 rounded-3xl border shadow-sm">
-                    <h3 class="font-black text-lg mb-6">Histórico Detalhado</h3>
-                    <div id="historicoDisplay" class="space-y-3"></div>
-                </div>
+                <div id="totaisCliente" class="grid grid-cols-3 gap-4 font-bold"></div>
+                <div id="historicoDisplay" class="bg-white p-6 rounded-2xl border space-y-2"></div>
             </div>
 
-            <!-- PAINEL DIRETORIA -->
-            <div id="viewDiretoria" class="hidden bg-white p-8 rounded-3xl border shadow-sm">
-                <h2 class="font-black text-xl mb-6">Gestão de Parceiros</h2>
+            <div id="viewDiretoria" class="bg-white p-6 rounded-2xl border hidden space-y-4">
+                <h2 class="font-bold text-lg">Painel Diretoria</h2>
                 <table class="w-full text-left">
-                    <thead><tr class="text-xs uppercase text-slate-400 border-b"><th class="p-3">Marca</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
+                    <thead class="text-xs uppercase text-slate-400"><tr><th class="p-3">Marca</th><th class="p-3">Saldo</th><th class="p-3">Ações</th></tr></thead>
                     <tbody id="tabelaDiretoria"></tbody>
                 </table>
             </div>
@@ -70,18 +52,18 @@
     </main>
 
     <!-- MODAL REGRAS -->
-    <div id="modalRegras" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white p-8 rounded-3xl max-w-lg w-full space-y-4">
-            <h2 class="font-black text-xl border-b pb-3">Regras S.O.S Clube</h2>
-            <div id="conteudoRegras" class="text-sm text-slate-600 space-y-2"></div>
-            <button onclick="toggleModal('modalRegras')" class="w-full bg-[#f97316] text-white p-4 rounded-2xl font-bold">Entendido</button>
+    <div id="modalRegras" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl max-w-lg w-full space-y-4">
+            <h2 class="font-bold text-lg border-b pb-2">Como funciona o S.O.S Clube</h2>
+            <div id="conteudoRegras" class="text-sm text-slate-600"></div>
+            <button onclick="toggleModal('modalRegras')" class="w-full bg-[#0f172a] text-white p-3 rounded-lg">Entendido</button>
         </div>
     </div>
 
     <!-- MODAL EDICAO -->
-    <div id="modalEdit" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white p-8 rounded-3xl max-w-sm w-full space-y-4">
-            <h2 id="modalTitulo" class="font-black text-lg">Editar</h2>
+    <div id="modalEdit" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-8 rounded-2xl max-w-sm w-full space-y-4">
+            <h2 class="font-bold text-lg">Editar Parceiro</h2>
             <input id="eAporte" type="number" class="w-full p-3 bg-slate-50 border rounded-xl" placeholder="Aporte">
             <input id="eAbatido" type="number" class="w-full p-3 bg-slate-50 border rounded-xl" placeholder="Abatido">
             <input id="eNovoHist" class="w-full p-3 bg-slate-50 border rounded-xl" placeholder="Data: Descrição Movimento">
@@ -90,16 +72,69 @@
     </div>
 
     <script>
-        let data = JSON.parse(localStorage.getItem('sos_clube_data')) || {
+        let data = JSON.parse(localStorage.getItem('sos_data')) || {
             clientes: [
                 { nome: 'Diretoria', senha: '123456', isAdm: true },
                 { nome: 'Uli Joias', senha: '987654321', aporte: 0, abatido: 0, hist: [] },
-                { nome: 'Niara Joias', senha: '123456789', aporte: 3623.13, abatido: 0, dataAporte: '2026-08-01', hist: ['01/08/2026: Aporte inicial R$ 3623,13'] }
+                { nome: 'Niara Joias', senha: '123456789', aporte: 3623.13, abatido: 0, hist: ['01/08/2026: Aporte R$ 3623,13'] }
             ]
         };
 
-        // Lógica de Renderização e Edição mantida... (O restante do código segue a mesma estrutura de funcionalidade solicitada)
-        // [Código completo carregado no seu navegador]
+        function atualizarSelect() {
+            const s = document.getElementById('selectLogin');
+            s.innerHTML = data.clientes.map(c => `<option value="${c.nome}">${c.nome}</option>`).join('');
+        }
+        atualizarSelect();
+
+        function fazerLogin() {
+            const c = data.clientes.find(x => x.nome === document.getElementById('selectLogin').value && x.senha === document.getElementById('inputSenha').value);
+            if(c) { sessionStorage.setItem('u', JSON.stringify(c)); location.reload(); }
+            else alert('Senha incorreta!');
+        }
+
+        function logout() { sessionStorage.removeItem('u'); location.reload(); }
+        function toggleModal(id) { document.getElementById(id).classList.toggle('hidden'); }
+
+        const u = JSON.parse(sessionStorage.getItem('u'));
+        if(u) {
+            document.getElementById('boxLogin').classList.add('hidden');
+            document.getElementById('boxApp').classList.remove('hidden');
+            document.getElementById('statusArea').classList.remove('hidden');
+            document.getElementById('labelUser').innerText = u.nome;
+            if(u.isAdm) {
+                document.getElementById('viewDiretoria').classList.remove('hidden');
+                document.getElementById('tabelaDiretoria').innerHTML = data.clientes.filter(x=>!x.isAdm).map((c,i) => `<tr><td class="p-3 font-bold">${c.nome}</td><td class="p-3">R$ ${c.aporte-c.abatido}</td><td class="p-3"><button onclick="abrirEdit(${i})" class="text-orange-500 font-bold">EDITAR</button></td></tr>`).join('');
+            } else {
+                document.getElementById('viewCliente').classList.remove('hidden');
+                document.getElementById('cliNome').innerText = u.nome;
+                document.getElementById('totaisCliente').innerHTML = `<div>Aporte: R$ ${u.aporte}</div><div>Abatido: R$ ${u.abatido}</div><div>Saldo: R$ ${u.aporte-u.abatido}</div>`;
+                document.getElementById('historicoDisplay').innerHTML = u.hist.map(h => `<p class="border-b py-2">${h}</p>`).join('');
+            }
+        }
+
+        function abrirEdit(i) {
+            window.idx = i;
+            let c = data.clientes.filter(x=>!x.isAdm)[i];
+            document.getElementById('eAporte').value = c.aporte;
+            document.getElementById('eAbatido').value = c.abatido;
+            toggleModal('modalEdit');
+        }
+
+        function salvarEdit() {
+            let c = data.clientes.filter(x=>!x.isAdm)[window.idx];
+            c.aporte = parseFloat(document.getElementById('eAporte').value);
+            c.abatido = parseFloat(document.getElementById('eAbatido').value);
+            let hist = document.getElementById('eNovoHist').value;
+            if(hist) c.hist.push(hist);
+            localStorage.setItem('sos_data', JSON.stringify(data));
+            location.reload();
+        }
+
+        function abrirRegras() {
+            const isNiara = u && u.nome === 'Niara Joias';
+            document.getElementById('conteudoRegras').innerHTML = isNiara ? "Niara: 30% até 8.9k, 35% acima de 9k. Prazo 10 dias." : "Padrão: 10% a 30%. Prazo 10 dias.";
+            toggleModal('modalRegras');
+        }
     </script>
 </body>
 </html>
